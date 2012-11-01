@@ -1,0 +1,797 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		EC84244B163FA3CF00F8361B /* all */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = EC84244E163FA3CF00F8361B /* Build configuration list for PBXAggregateTarget "all" */;
+			buildPhases = (
+			);
+			dependencies = (
+				EC842451163FA3F200F8361B /* PBXTargetDependency */,
+				EC842453163FA3F200F8361B /* PBXTargetDependency */,
+				EC842455163FA3F200F8361B /* PBXTargetDependency */,
+				EC842457163FA3F200F8361B /* PBXTargetDependency */,
+				EC842459163FA3F200F8361B /* PBXTargetDependency */,
+			);
+			name = all;
+			productName = all;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		EC697E99163B1791006B4407 /* coordinates.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E79163B1791006B4407 /* coordinates.c */; };
+		EC697E9C163B1791006B4407 /* de4xx.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E7C163B1791006B4407 /* de4xx.c */; };
+		EC697E9D163B1791006B4407 /* de4xx.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E7D163B1791006B4407 /* de4xx.h */; };
+		EC697E9E163B1791006B4407 /* elp2000-82b.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E7E163B1791006B4407 /* elp2000-82b.c */; };
+		EC697EA1163B1791006B4407 /* goffin-j2000.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E81163B1791006B4407 /* goffin-j2000.c */; };
+		EC697EA3163B1791006B4407 /* gust86.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E83163B1791006B4407 /* gust86.c */; };
+		EC697EA4163B1791006B4407 /* iau-rot-tables.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E84163B1791006B4407 /* iau-rot-tables.h */; };
+		EC697EA5163B1791006B4407 /* iau-rotation.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E85163B1791006B4407 /* iau-rotation.c */; };
+		EC697EA6163B1791006B4407 /* kepler.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E86163B1791006B4407 /* kepler.c */; };
+		EC697EA7163B1791006B4407 /* lieske-e2x3.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E87163B1791006B4407 /* lieske-e2x3.c */; };
+		EC697EA8163B1791006B4407 /* mean-orbits.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E88163B1791006B4407 /* mean-orbits.c */; };
+		EC697EAA163B1791006B4407 /* models.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E8A163B1791006B4407 /* models.c */; };
+		EC697EAC163B1791006B4407 /* mpc-orbit-reader.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E8C163B1791006B4407 /* mpc-orbit-reader.c */; };
+		EC697EAD163B1791006B4407 /* time-formats.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E8D163B1791006B4407 /* time-formats.c */; };
+		EC697EAE163B1791006B4407 /* vsop87-earth.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E8E163B1791006B4407 /* vsop87-earth.h */; };
+		EC697EAF163B1791006B4407 /* vsop87-jupiter.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E8F163B1791006B4407 /* vsop87-jupiter.h */; };
+		EC697EB0163B1791006B4407 /* vsop87-mars.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E90163B1791006B4407 /* vsop87-mars.h */; };
+		EC697EB1163B1791006B4407 /* vsop87-mercury.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E91163B1791006B4407 /* vsop87-mercury.h */; };
+		EC697EB2163B1791006B4407 /* vsop87-neptune.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E92163B1791006B4407 /* vsop87-neptune.h */; };
+		EC697EB3163B1791006B4407 /* vsop87-saturn.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E93163B1791006B4407 /* vsop87-saturn.h */; };
+		EC697EB4163B1791006B4407 /* vsop87-sun.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E94163B1791006B4407 /* vsop87-sun.h */; };
+		EC697EB5163B1791006B4407 /* vsop87-uranus.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E95163B1791006B4407 /* vsop87-uranus.h */; };
+		EC697EB6163B1791006B4407 /* vsop87-venus.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E96163B1791006B4407 /* vsop87-venus.h */; };
+		EC697EB7163B1791006B4407 /* vsop87.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E97163B1791006B4407 /* vsop87.c */; };
+		EC697EFB163B1943006B4407 /* orbital-sim-test.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697EC2163B1851006B4407 /* orbital-sim-test.c */; };
+		EC697EFC163B194E006B4407 /* orbital-sim.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697EBC163B17CC006B4407 /* orbital-sim.c */; };
+		EC697EFD163B1957006B4407 /* de4xx-convert.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697EBA163B17CC006B4407 /* de4xx-convert.c */; };
+		EC84242B163D369D00F8361B /* libcelmek.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC697E2D163AE2CE006B4407 /* libcelmek.a */; };
+		EC84242D163D36A500F8361B /* libcelmek.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC697E2D163AE2CE006B4407 /* libcelmek.a */; };
+		EC84242E163D36AA00F8361B /* libcelmek.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC697E2D163AE2CE006B4407 /* libcelmek.a */; };
+		EC84242F163D36B000F8361B /* libcelmek.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC697E2D163AE2CE006B4407 /* libcelmek.a */; };
+		EC842431163D36E800F8361B /* libcheck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC842430163D36E800F8361B /* libcheck.a */; };
+		EC84245B163FA46B00F8361B /* de4xx-sim.c in Sources */ = {isa = PBXBuildFile; fileRef = EC84245A163FA46B00F8361B /* de4xx-sim.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EC842450163FA3F200F8361B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC697E24163AE2CE006B4407 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC697E2C163AE2CE006B4407;
+			remoteInfo = celmek;
+		};
+		EC842452163FA3F200F8361B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC697E24163AE2CE006B4407 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC697EC6163B189C006B4407;
+			remoteInfo = deconvert;
+		};
+		EC842454163FA3F200F8361B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC697E24163AE2CE006B4407 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC697ED4163B18D9006B4407;
+			remoteInfo = desim;
+		};
+		EC842456163FA3F200F8361B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC697E24163AE2CE006B4407 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC697EE2163B1904006B4407;
+			remoteInfo = cmsim;
+		};
+		EC842458163FA3F200F8361B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC697E24163AE2CE006B4407 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC697EF0163B192B006B4407;
+			remoteInfo = cmtest;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EC697EC5163B189C006B4407 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		EC697ED3163B18D9006B4407 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		EC697EE1163B1904006B4407 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		EC697EEF163B192B006B4407 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EC697E2D163AE2CE006B4407 /* libcelmek.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcelmek.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC697E79163B1791006B4407 /* coordinates.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coordinates.c; sourceTree = "<group>"; };
+		EC697E7C163B1791006B4407 /* de4xx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = de4xx.c; sourceTree = "<group>"; };
+		EC697E7D163B1791006B4407 /* de4xx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = de4xx.h; sourceTree = "<group>"; };
+		EC697E7E163B1791006B4407 /* elp2000-82b.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "elp2000-82b.c"; sourceTree = "<group>"; };
+		EC697E81163B1791006B4407 /* goffin-j2000.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "goffin-j2000.c"; sourceTree = "<group>"; };
+		EC697E83163B1791006B4407 /* gust86.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gust86.c; sourceTree = "<group>"; };
+		EC697E84163B1791006B4407 /* iau-rot-tables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iau-rot-tables.h"; sourceTree = "<group>"; };
+		EC697E85163B1791006B4407 /* iau-rotation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "iau-rotation.c"; sourceTree = "<group>"; };
+		EC697E86163B1791006B4407 /* kepler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kepler.c; sourceTree = "<group>"; };
+		EC697E87163B1791006B4407 /* lieske-e2x3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "lieske-e2x3.c"; sourceTree = "<group>"; };
+		EC697E88163B1791006B4407 /* mean-orbits.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "mean-orbits.c"; sourceTree = "<group>"; };
+		EC697E8A163B1791006B4407 /* models.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = models.c; sourceTree = "<group>"; };
+		EC697E8C163B1791006B4407 /* mpc-orbit-reader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "mpc-orbit-reader.c"; sourceTree = "<group>"; };
+		EC697E8D163B1791006B4407 /* time-formats.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "time-formats.c"; sourceTree = "<group>"; };
+		EC697E8E163B1791006B4407 /* vsop87-earth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-earth.h"; sourceTree = "<group>"; };
+		EC697E8F163B1791006B4407 /* vsop87-jupiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-jupiter.h"; sourceTree = "<group>"; };
+		EC697E90163B1791006B4407 /* vsop87-mars.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-mars.h"; sourceTree = "<group>"; };
+		EC697E91163B1791006B4407 /* vsop87-mercury.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-mercury.h"; sourceTree = "<group>"; };
+		EC697E92163B1791006B4407 /* vsop87-neptune.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-neptune.h"; sourceTree = "<group>"; };
+		EC697E93163B1791006B4407 /* vsop87-saturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-saturn.h"; sourceTree = "<group>"; };
+		EC697E94163B1791006B4407 /* vsop87-sun.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-sun.h"; sourceTree = "<group>"; };
+		EC697E95163B1791006B4407 /* vsop87-uranus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-uranus.h"; sourceTree = "<group>"; };
+		EC697E96163B1791006B4407 /* vsop87-venus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "vsop87-venus.h"; sourceTree = "<group>"; };
+		EC697E97163B1791006B4407 /* vsop87.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vsop87.c; sourceTree = "<group>"; };
+		EC697EB9163B17CC006B4407 /* de4xx-ascii-merge.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "de4xx-ascii-merge.sh"; sourceTree = "<group>"; };
+		EC697EBA163B17CC006B4407 /* de4xx-convert.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "de4xx-convert.c"; sourceTree = "<group>"; };
+		EC697EBB163B17CC006B4407 /* iau-rotextract.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = "iau-rotextract.py"; sourceTree = "<group>"; };
+		EC697EBC163B17CC006B4407 /* orbital-sim.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "orbital-sim.c"; sourceTree = "<group>"; };
+		EC697EBD163B17CC006B4407 /* vsop-terms.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "vsop-terms.sh"; sourceTree = "<group>"; };
+		EC697EBE163B17CC006B4407 /* vsop87-termextract.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = "vsop87-termextract.py"; sourceTree = "<group>"; };
+		EC697EBF163B17EE006B4407 /* vsop87-rotation.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = "vsop87-rotation.py"; sourceTree = "<group>"; };
+		EC697EC0163B1820006B4407 /* rotationdata.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = rotationdata.txt; sourceTree = "<group>"; };
+		EC697EC1163B1851006B4407 /* detest.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = detest.py; sourceTree = "<group>"; };
+		EC697EC2163B1851006B4407 /* orbital-sim-test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "orbital-sim-test.c"; sourceTree = "<group>"; };
+		EC697EC7163B189C006B4407 /* deconvert */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = deconvert; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC697ED5163B18D9006B4407 /* desim */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = desim; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC697EE3163B1904006B4407 /* cmsim */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cmsim; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC697EF1163B192B006B4407 /* cmtest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cmtest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC842430163D36E800F8361B /* libcheck.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcheck.a; path = ../../../../../../opt/local/lib/libcheck.a; sourceTree = "<group>"; };
+		EC842442163EA0B700F8361B /* vsop87e-test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "vsop87e-test.h"; sourceTree = "<group>"; };
+		EC84245A163FA46B00F8361B /* de4xx-sim.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "de4xx-sim.c"; sourceTree = "<group>"; };
+		EC84245D164022D600F8361B /* celmek.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = celmek.h; sourceTree = "<group>"; };
+		EC84246616429BB600F8361B /* cm-math.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-math.h"; sourceTree = "<group>"; };
+		EC8424671642AEC700F8361B /* cm-time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-time.h"; sourceTree = "<group>"; };
+		EC8424681642AEE100F8361B /* cm-model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-model.h"; sourceTree = "<group>"; };
+		EC8424691642AF0400F8361B /* cm-coordinates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-coordinates.h"; sourceTree = "<group>"; };
+		EC84246A1642AF7300F8361B /* cm-astro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-astro.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EC697E2A163AE2CE006B4407 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC697EC4163B189C006B4407 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC84242B163D369D00F8361B /* libcelmek.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC697ED2163B18D9006B4407 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC84242D163D36A500F8361B /* libcelmek.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC697EE0163B1904006B4407 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC84242E163D36AA00F8361B /* libcelmek.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC697EEE163B192B006B4407 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC842431163D36E800F8361B /* libcheck.a in Frameworks */,
+				EC84242F163D36B000F8361B /* libcelmek.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EC697E22163AE2CE006B4407 = {
+			isa = PBXGroup;
+			children = (
+				EC842430163D36E800F8361B /* libcheck.a */,
+				EC697E38163B171B006B4407 /* data */,
+				EC697E37163B16D5006B4407 /* tools */,
+				EC697E36163B16BF006B4407 /* test */,
+				EC697E35163B16B0006B4407 /* src */,
+				EC697E34163B1694006B4407 /* include */,
+				EC697E2E163AE2CE006B4407 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EC697E2E163AE2CE006B4407 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EC697E2D163AE2CE006B4407 /* libcelmek.a */,
+				EC697EC7163B189C006B4407 /* deconvert */,
+				EC697ED5163B18D9006B4407 /* desim */,
+				EC697EE3163B1904006B4407 /* cmsim */,
+				EC697EF1163B192B006B4407 /* cmtest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EC697E34163B1694006B4407 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				EC84245C1640229F00F8361B /* celmek */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		EC697E35163B16B0006B4407 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				EC697E79163B1791006B4407 /* coordinates.c */,
+				EC697E7C163B1791006B4407 /* de4xx.c */,
+				EC697E7D163B1791006B4407 /* de4xx.h */,
+				EC697E7E163B1791006B4407 /* elp2000-82b.c */,
+				EC697E81163B1791006B4407 /* goffin-j2000.c */,
+				EC697E83163B1791006B4407 /* gust86.c */,
+				EC697E84163B1791006B4407 /* iau-rot-tables.h */,
+				EC697E85163B1791006B4407 /* iau-rotation.c */,
+				EC697E86163B1791006B4407 /* kepler.c */,
+				EC697E87163B1791006B4407 /* lieske-e2x3.c */,
+				EC697E88163B1791006B4407 /* mean-orbits.c */,
+				EC697E8A163B1791006B4407 /* models.c */,
+				EC697E8C163B1791006B4407 /* mpc-orbit-reader.c */,
+				EC697E8D163B1791006B4407 /* time-formats.c */,
+				EC697E8E163B1791006B4407 /* vsop87-earth.h */,
+				EC697E8F163B1791006B4407 /* vsop87-jupiter.h */,
+				EC697E90163B1791006B4407 /* vsop87-mars.h */,
+				EC697E91163B1791006B4407 /* vsop87-mercury.h */,
+				EC697E92163B1791006B4407 /* vsop87-neptune.h */,
+				EC697E93163B1791006B4407 /* vsop87-saturn.h */,
+				EC697E94163B1791006B4407 /* vsop87-sun.h */,
+				EC697E95163B1791006B4407 /* vsop87-uranus.h */,
+				EC697E96163B1791006B4407 /* vsop87-venus.h */,
+				EC697E97163B1791006B4407 /* vsop87.c */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		EC697E36163B16BF006B4407 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				EC842442163EA0B700F8361B /* vsop87e-test.h */,
+				EC697EC1163B1851006B4407 /* detest.py */,
+				EC697EC2163B1851006B4407 /* orbital-sim-test.c */,
+			);
+			path = test;
+			sourceTree = "<group>";
+		};
+		EC697E37163B16D5006B4407 /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				EC697EBF163B17EE006B4407 /* vsop87-rotation.py */,
+				EC697EB9163B17CC006B4407 /* de4xx-ascii-merge.sh */,
+				EC697EBA163B17CC006B4407 /* de4xx-convert.c */,
+				EC697EBB163B17CC006B4407 /* iau-rotextract.py */,
+				EC697EBC163B17CC006B4407 /* orbital-sim.c */,
+				EC697EBD163B17CC006B4407 /* vsop-terms.sh */,
+				EC697EBE163B17CC006B4407 /* vsop87-termextract.py */,
+				EC84245A163FA46B00F8361B /* de4xx-sim.c */,
+			);
+			path = tools;
+			sourceTree = "<group>";
+		};
+		EC697E38163B171B006B4407 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				EC697EC0163B1820006B4407 /* rotationdata.txt */,
+			);
+			path = data;
+			sourceTree = "<group>";
+		};
+		EC84245C1640229F00F8361B /* celmek */ = {
+			isa = PBXGroup;
+			children = (
+				EC84245D164022D600F8361B /* celmek.h */,
+				EC84246616429BB600F8361B /* cm-math.h */,
+				EC8424671642AEC700F8361B /* cm-time.h */,
+				EC8424681642AEE100F8361B /* cm-model.h */,
+				EC8424691642AF0400F8361B /* cm-coordinates.h */,
+				EC84246A1642AF7300F8361B /* cm-astro.h */,
+			);
+			path = celmek;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		EC697E2B163AE2CE006B4407 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC697E9D163B1791006B4407 /* de4xx.h in Headers */,
+				EC697EA4163B1791006B4407 /* iau-rot-tables.h in Headers */,
+				EC697EAE163B1791006B4407 /* vsop87-earth.h in Headers */,
+				EC697EAF163B1791006B4407 /* vsop87-jupiter.h in Headers */,
+				EC697EB0163B1791006B4407 /* vsop87-mars.h in Headers */,
+				EC697EB1163B1791006B4407 /* vsop87-mercury.h in Headers */,
+				EC697EB2163B1791006B4407 /* vsop87-neptune.h in Headers */,
+				EC697EB3163B1791006B4407 /* vsop87-saturn.h in Headers */,
+				EC697EB4163B1791006B4407 /* vsop87-sun.h in Headers */,
+				EC697EB5163B1791006B4407 /* vsop87-uranus.h in Headers */,
+				EC697EB6163B1791006B4407 /* vsop87-venus.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		EC697E2C163AE2CE006B4407 /* celmek */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC697E31163AE2CE006B4407 /* Build configuration list for PBXNativeTarget "celmek" */;
+			buildPhases = (
+				EC697E29163AE2CE006B4407 /* Sources */,
+				EC697E2A163AE2CE006B4407 /* Frameworks */,
+				EC697E2B163AE2CE006B4407 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = celmek;
+			productName = celmek;
+			productReference = EC697E2D163AE2CE006B4407 /* libcelmek.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		EC697EC6163B189C006B4407 /* deconvert */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC697ECE163B189C006B4407 /* Build configuration list for PBXNativeTarget "deconvert" */;
+			buildPhases = (
+				EC697EC3163B189C006B4407 /* Sources */,
+				EC697EC4163B189C006B4407 /* Frameworks */,
+				EC697EC5163B189C006B4407 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = deconvert;
+			productName = deconvert;
+			productReference = EC697EC7163B189C006B4407 /* deconvert */;
+			productType = "com.apple.product-type.tool";
+		};
+		EC697ED4163B18D9006B4407 /* desim */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC697EDC163B18D9006B4407 /* Build configuration list for PBXNativeTarget "desim" */;
+			buildPhases = (
+				EC697ED1163B18D9006B4407 /* Sources */,
+				EC697ED2163B18D9006B4407 /* Frameworks */,
+				EC697ED3163B18D9006B4407 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = desim;
+			productName = desim;
+			productReference = EC697ED5163B18D9006B4407 /* desim */;
+			productType = "com.apple.product-type.tool";
+		};
+		EC697EE2163B1904006B4407 /* cmsim */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC697EEA163B1904006B4407 /* Build configuration list for PBXNativeTarget "cmsim" */;
+			buildPhases = (
+				EC697EDF163B1904006B4407 /* Sources */,
+				EC697EE0163B1904006B4407 /* Frameworks */,
+				EC697EE1163B1904006B4407 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cmsim;
+			productName = cmsim;
+			productReference = EC697EE3163B1904006B4407 /* cmsim */;
+			productType = "com.apple.product-type.tool";
+		};
+		EC697EF0163B192B006B4407 /* cmtest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC697EF8163B192B006B4407 /* Build configuration list for PBXNativeTarget "cmtest" */;
+			buildPhases = (
+				EC697EED163B192B006B4407 /* Sources */,
+				EC697EEE163B192B006B4407 /* Frameworks */,
+				EC697EEF163B192B006B4407 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cmtest;
+			productName = cmtest;
+			productReference = EC697EF1163B192B006B4407 /* cmtest */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EC697E24163AE2CE006B4407 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "Open Orbit";
+			};
+			buildConfigurationList = EC697E27163AE2CE006B4407 /* Build configuration list for PBXProject "celmek" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EC697E22163AE2CE006B4407;
+			productRefGroup = EC697E2E163AE2CE006B4407 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EC84244B163FA3CF00F8361B /* all */,
+				EC697E2C163AE2CE006B4407 /* celmek */,
+				EC697EC6163B189C006B4407 /* deconvert */,
+				EC697ED4163B18D9006B4407 /* desim */,
+				EC697EE2163B1904006B4407 /* cmsim */,
+				EC697EF0163B192B006B4407 /* cmtest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EC697E29163AE2CE006B4407 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC697E99163B1791006B4407 /* coordinates.c in Sources */,
+				EC697E9C163B1791006B4407 /* de4xx.c in Sources */,
+				EC697E9E163B1791006B4407 /* elp2000-82b.c in Sources */,
+				EC697EA1163B1791006B4407 /* goffin-j2000.c in Sources */,
+				EC697EA3163B1791006B4407 /* gust86.c in Sources */,
+				EC697EA5163B1791006B4407 /* iau-rotation.c in Sources */,
+				EC697EA6163B1791006B4407 /* kepler.c in Sources */,
+				EC697EA7163B1791006B4407 /* lieske-e2x3.c in Sources */,
+				EC697EA8163B1791006B4407 /* mean-orbits.c in Sources */,
+				EC697EAA163B1791006B4407 /* models.c in Sources */,
+				EC697EAC163B1791006B4407 /* mpc-orbit-reader.c in Sources */,
+				EC697EAD163B1791006B4407 /* time-formats.c in Sources */,
+				EC697EB7163B1791006B4407 /* vsop87.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC697EC3163B189C006B4407 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC697EFD163B1957006B4407 /* de4xx-convert.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC697ED1163B18D9006B4407 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC84245B163FA46B00F8361B /* de4xx-sim.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC697EDF163B1904006B4407 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC697EFC163B194E006B4407 /* orbital-sim.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC697EED163B192B006B4407 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC697EFB163B1943006B4407 /* orbital-sim-test.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EC842451163FA3F200F8361B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC697E2C163AE2CE006B4407 /* celmek */;
+			targetProxy = EC842450163FA3F200F8361B /* PBXContainerItemProxy */;
+		};
+		EC842453163FA3F200F8361B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC697EC6163B189C006B4407 /* deconvert */;
+			targetProxy = EC842452163FA3F200F8361B /* PBXContainerItemProxy */;
+		};
+		EC842455163FA3F200F8361B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC697ED4163B18D9006B4407 /* desim */;
+			targetProxy = EC842454163FA3F200F8361B /* PBXContainerItemProxy */;
+		};
+		EC842457163FA3F200F8361B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC697EE2163B1904006B4407 /* cmsim */;
+			targetProxy = EC842456163FA3F200F8361B /* PBXContainerItemProxy */;
+		};
+		EC842459163FA3F200F8361B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC697EF0163B192B006B4407 /* cmtest */;
+			targetProxy = EC842458163FA3F200F8361B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		EC697E2F163AE2CE006B4407 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_STRICT_ALIASING = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/include";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		EC697E30163AE2CE006B4407 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_STRICT_ALIASING = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/include";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		EC697E32163AE2CE006B4407 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EC697E33163AE2CE006B4407 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		EC697ECF163B189C006B4407 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EC697ED0163B189C006B4407 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		EC697EDD163B18D9006B4407 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EC697EDE163B18D9006B4407 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		EC697EEB163B1904006B4407 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EC697EEC163B1904006B4407 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		EC697EF9163B192B006B4407 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					"${PROJECT_DIR}/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EC697EFA163B192B006B4407 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					"${PROJECT_DIR}/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		EC84244C163FA3CF00F8361B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EC84244D163FA3CF00F8361B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EC697E27163AE2CE006B4407 /* Build configuration list for PBXProject "celmek" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC697E2F163AE2CE006B4407 /* Debug */,
+				EC697E30163AE2CE006B4407 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC697E31163AE2CE006B4407 /* Build configuration list for PBXNativeTarget "celmek" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC697E32163AE2CE006B4407 /* Debug */,
+				EC697E33163AE2CE006B4407 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC697ECE163B189C006B4407 /* Build configuration list for PBXNativeTarget "deconvert" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC697ECF163B189C006B4407 /* Debug */,
+				EC697ED0163B189C006B4407 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC697EDC163B18D9006B4407 /* Build configuration list for PBXNativeTarget "desim" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC697EDD163B18D9006B4407 /* Debug */,
+				EC697EDE163B18D9006B4407 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC697EEA163B1904006B4407 /* Build configuration list for PBXNativeTarget "cmsim" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC697EEB163B1904006B4407 /* Debug */,
+				EC697EEC163B1904006B4407 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC697EF8163B192B006B4407 /* Build configuration list for PBXNativeTarget "cmtest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC697EF9163B192B006B4407 /* Debug */,
+				EC697EFA163B192B006B4407 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC84244E163FA3CF00F8361B /* Build configuration list for PBXAggregateTarget "all" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC84244C163FA3CF00F8361B /* Debug */,
+				EC84244D163FA3CF00F8361B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EC697E24163AE2CE006B4407 /* Project object */;
+}

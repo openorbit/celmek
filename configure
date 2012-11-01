@@ -1,0 +1,6 @@
+#! /bin/sh
+
+sloc=`which "$0"`
+dloc=`dirname "$sloc"`
+CC=clang cmake $dloc
+
