@@ -1,0 +1,12 @@
+Libcelmek was developed by Mattias Holm (lorrden at openorbit dot org).
+
+Libcelmek is a celestial mechanics library, it implements many different
+algorithms. Several algorithms are implemented from the Astronomical Algorithms
+book by Jean Meeus, ISBN: 0-943396-35-2. In addition to those algorithms,
+full precision VSOP87E and the IAU rotational model is also implemented.
+
+There are two ways to compile the library, either with the Xcode project file or
+using the CMake build system. Tests does at the moment only build using the
+Xcode project however.
+
+Documentation is lacking at the moment, but it will be added later on.
