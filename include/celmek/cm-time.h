@@ -21,6 +21,8 @@
 #ifndef celmek_cm_time_h
 #define celmek_cm_time_h
 
+#include <stdint.h>
+
 typedef enum {
   CM_UNIX, // Unix time (seconds since 1970-01-01)
   CM_TAI, // Atomic coordinated time at sea-level
@@ -30,6 +32,49 @@ typedef enum {
   CM_TT, // Terrestial time = TAI
 } cm_time_format_t;
 
+typedef enum {
+  CM_MONTH_JANUARY = 1,
+  CM_MONTH_FEBRUARY,
+  CM_MONTH_MARS,
+  CM_MONTH_APRIL,
+  CM_MONTH_MAY,
+  CM_MONTH_JUNE,
+  CM_MONTH_JULY,
+  CM_MONTH_AUGUST,
+  CM_MONTH_SEPTEMBER,
+  CM_MONTH_OCTOBER,
+  CM_MONTH_NOVEMBER,
+  CM_MONTH_DECEMBER,
+} cm_month_t;
+
+typedef struct {
+  int year;
+  cm_month_t month;
+  uint8_t day;
+} cm_date_t;
+
+typedef struct {
+  uint8_t hh;
+  uint8_t mm;
+  double s;
+} cm_time_t;
+
+
+typedef struct {
+  cm_date_t date;
+  cm_time_t time;
+} cm_date_time_t;
+
+void cm_read_packed_date(cm_date_t *date, const char *date_str);
+int cm_read_iso_date_string(cm_date_time_t *dt, const char *str);
+
+
+// Convert JD tcb to JD tdb
+double cm_tcb_to_tdb(double tcb);
+
+
+double cm_date_time_to_jd(const cm_date_time_t *date);
+void cm_jd_to_date_time(double jd, cm_date_time_t *date);
 
 
 #endif
