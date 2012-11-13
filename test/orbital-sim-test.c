@@ -25,6 +25,99 @@
 
 #define ALMOST_EQUAL(a, b, p) (a >= b - p && a <= b + p)
 
+struct {
+  const char *date_str;
+  cm_date_t expect;
+} packed_date_data[] = {
+  {"K129U", {2012,  9, 30}},
+  {"J609N", {1960,  9, 23}},
+  {"J739F", {1973,  9, 15}},
+  {"J77AO", {1977, 10, 24}},
+  {"J77A4", {1977, 10,  4}},
+  {"J9611", {1996,  1,  1}},
+  {"J961A", {1996,  1, 10}},
+  {"J969U", {1996,  9, 30}},
+  {"J96A1", {1996, 10,  1}},
+  {"K01AM", {2001, 10, 22}},
+};
+
+START_TEST(test_packed_dates)
+{
+  cm_date_t date;
+
+  for (int i = 0 ; i < sizeof(packed_date_data)/sizeof(packed_date_data[0]) ;
+       i++) {
+    cm_read_packed_date(&date, packed_date_data[i].date_str);
+
+    fail_unless(date.year  == packed_date_data[i].expect.year);
+    fail_unless(date.month == packed_date_data[i].expect.month);
+    fail_unless(date.day   == packed_date_data[i].expect.day);
+
+  }
+}
+END_TEST;
+
+START_TEST(test_iso_date_reader)
+{
+  cm_date_time_t dt;
+
+  cm_read_iso_date_string(&dt, "2012-03-12T12:15:55.456");
+  fail_unless(dt.date.year == 2012);
+  fail_unless(dt.date.month == 3);
+  fail_unless(dt.date.day == 12);
+  fail_unless(dt.time.hh == 12);
+  fail_unless(dt.time.mm == 15, "time.mm expected 15, got %d", (int)dt.time.mm);
+  fail_unless(dt.time.s == 55.456);
+
+  cm_read_iso_date_string(&dt, "2012-03-12T12:15:123.456Z");
+  fail_unless(dt.date.year == 2012);
+  fail_unless(dt.date.month == 3);
+  fail_unless(dt.date.day == 12);
+  fail_unless(dt.time.hh == 12);
+  fail_unless(dt.time.mm == 17, "time.mm expected 17, got %d", (int)dt.time.mm);
+  fail_unless(ALMOST_EQUAL(dt.time.s, 3.456, 0.000005), "time.s expected 3.456, got %f", dt.time.s);
+
+  cm_read_iso_date_string(&dt, "2012-03-12T12:15:55.456+1");
+  fail_unless(dt.date.year == 2012);
+  fail_unless(dt.date.month == 3);
+  fail_unless(dt.date.day == 12);
+  fail_unless(dt.time.hh == 11);
+  fail_unless(dt.time.mm == 15);
+  fail_unless(dt.time.s == 55.456);
+
+}
+END_TEST;
+
+START_TEST(test_tcb_to_tdb)
+{
+  // TODO: Implement test
+}
+END_TEST;
+
+START_TEST(test_greg_to_jd)
+{
+  cm_date_time_t dt = {{2000,1,1}, {12,0,0.0}};
+  double res = cm_date_time_to_jd(&dt);
+
+  fail_unless(res == 2451545.0);
+}
+END_TEST;
+
+START_TEST(test_jd_to_greg)
+{
+  cm_date_time_t dt;
+  cm_jd_to_date_time(2451545.0, &dt);
+
+  fail_unless(dt.date.year == 2000);
+  fail_unless(dt.date.month == 1);
+  fail_unless(dt.date.day == 1);
+  fail_unless(dt.time.hh == 12);
+  fail_unless(dt.time.mm == 0);
+  fail_unless(dt.time.s == 0.0);
+}
+END_TEST;
+
+
 START_TEST(test_get_orbital_model)
 {
   cm_orbital_model_t *model = NULL;
@@ -174,6 +267,13 @@ int main (int argc, char const *argv[])
   tcase_add_test(vsop87, test_vsop87e);
   suite_add_tcase(s, vsop87);
 
+  TCase *date_tests = tcase_create("dates");
+  tcase_add_test(date_tests, test_packed_dates);
+  tcase_add_test(date_tests, test_greg_to_jd);
+  tcase_add_test(date_tests, test_jd_to_greg);
+  tcase_add_test(date_tests, test_iso_date_reader);
+  tcase_add_test(date_tests, test_tcb_to_tdb);
+  suite_add_tcase(s, date_tests);
 
   SRunner *sr = srunner_create(s);
   srunner_run_all(sr, CK_NORMAL);
