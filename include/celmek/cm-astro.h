@@ -22,6 +22,7 @@
 #ifndef celmek_cm_astro_h
 #define celmek_cm_astro_h
 
+#include <stdbool.h>
 
 // Useful physical constants
 
@@ -100,6 +101,15 @@ typedef enum {
 } cm_body_id_t;
 
 
+void cm_orbital_elements_init(cm_orbital_elements_t *oe);
+double cm_semiminor_axis(double semimaj, double ecc);
+double cm_period(double semimaj, double GM1, double GM2);
+double cm_mean_anomaly(double period, double t_peri, double epoch);
+double cm_time_since_periapsis(double mean_anomaly, double mean_motion);
+double cm_mean_motion(double period);
+double cm_long_periapsis(double arg_peri, double long_asc);
+double cm_arg_periapsis(double long_peri, double long_asc);
+bool cm_orbital_elements_check(cm_orbital_elements_t *oe);
 
 
 void cm_mean_orbital_elements_at_date(cm_orbital_elements_t *elems,
