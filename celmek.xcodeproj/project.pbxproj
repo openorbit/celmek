@@ -58,6 +58,7 @@
 		EC84242F163D36B000F8361B /* libcelmek.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC697E2D163AE2CE006B4407 /* libcelmek.a */; };
 		EC842431163D36E800F8361B /* libcheck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC842430163D36E800F8361B /* libcheck.a */; };
 		EC84245B163FA46B00F8361B /* de4xx-sim.c in Sources */ = {isa = PBXBuildFile; fileRef = EC84245A163FA46B00F8361B /* de4xx-sim.c */; };
+		ECBF1902164CFD8E00C7E566 /* orbital-elements.c in Sources */ = {isa = PBXBuildFile; fileRef = ECBF1901164CFD8E00C7E566 /* orbital-elements.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +187,8 @@
 		EC8424681642AEE100F8361B /* cm-model.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-model.h"; sourceTree = "<group>"; };
 		EC8424691642AF0400F8361B /* cm-coordinates.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-coordinates.h"; sourceTree = "<group>"; };
 		EC84246A1642AF7300F8361B /* cm-astro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-astro.h"; sourceTree = "<group>"; };
+		ECBF1901164CFD8E00C7E566 /* orbital-elements.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "orbital-elements.c"; sourceTree = "<group>"; };
+		ECBF1904164FD53400C7E566 /* leap-sec-db.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "leap-sec-db.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -292,6 +295,8 @@
 				EC697E95163B1791006B4407 /* vsop87-uranus.h */,
 				EC697E96163B1791006B4407 /* vsop87-venus.h */,
 				EC697E97163B1791006B4407 /* vsop87.c */,
+				ECBF1901164CFD8E00C7E566 /* orbital-elements.c */,
+				ECBF1904164FD53400C7E566 /* leap-sec-db.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -500,6 +505,7 @@
 				EC697EAC163B1791006B4407 /* mpc-orbit-reader.c in Sources */,
 				EC697EAD163B1791006B4407 /* time-formats.c in Sources */,
 				EC697EB7163B1791006B4407 /* vsop87.c in Sources */,
+				ECBF1902164CFD8E00C7E566 /* orbital-elements.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
