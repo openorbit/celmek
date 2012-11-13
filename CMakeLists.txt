@@ -10,6 +10,7 @@ set(CELMEK_SRC  "src/coordinates.c"
                 "src/mean-orbits.c"
                 "src/models.c"
                 "src/mpc-orbit-reader.c"
+                "src/orbital-elements.c"
                 "src/time-formats.c"
                 "src/vsop87.c")
 
