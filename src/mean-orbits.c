@@ -190,35 +190,33 @@ static cm_planet_t *j2000[] = {
   &jupiter_j2000, &saturn_j2000, &uranus_j2000, &neptune_j2000
 };
 
+// TODO: Fix GM units
+static double gm[] = {
+  CM_GM_MERCURY_KM, CM_GM_VENUS_KM, CM_GM_EARTH_KM, CM_GM_MARS_KM,
+  CM_GM_JUPITER_KM, CM_GM_SATURN_KM, CM_GM_URANUS_KM, CM_GM_NEPTUNE_KM
+};
+
 // TODO: Vectorise
 void
 cm_compute_mean_orbital_elements_at_date(cm_orbital_elements_t *elems,
                                          cm_body_id_t planet, double T)
 {
-  elems->L = epoch[planet]->L[0]
-           + epoch[planet]->L[1] * T
-           + epoch[planet]->L[2] * T*T
-           + epoch[planet]->L[3] * T*T*T;
-  elems->a = epoch[planet]->a[0]
-           + epoch[planet]->a[1] * T
-           + epoch[planet]->a[2] * T*T
-           + epoch[planet]->a[3] * T*T*T;
-  elems->e = epoch[planet]->e[0]
-           + epoch[planet]->e[1] * T
-           + epoch[planet]->e[2] * T*T
-           + epoch[planet]->e[3] * T*T*T;
-  elems->i = epoch[planet]->i[0]
-           + epoch[planet]->i[1] * T
-           + epoch[planet]->i[2] * T*T
-           + epoch[planet]->i[3] * T*T*T;
-  elems->omega = epoch[planet]->omega[0]
-               + epoch[planet]->omega[1] * T
-               + epoch[planet]->omega[2] * T*T
-               + epoch[planet]->omega[3] * T*T*T;
-  elems->pi = epoch[planet]->pi[0]
-            + epoch[planet]->pi[1] * T
-            + epoch[planet]->pi[2] * T*T
-            + epoch[planet]->pi[3] * T*T*T;
+  double L = cm_mean_long_at_date(planet, T);
+  elems->a = cm_semimajor_at_date(planet, T);
+  elems->e = cm_eccentricity_at_date(planet, T);
+  elems->i = cm_incl_to_ecl_at_date(planet, T);
+  elems->Omega = cm_long_of_asc_node_at_date(planet, T);
+
+  double Lp = cm_long_of_peri_at_date(planet, T);
+  elems->w = cm_arg_periapsis(Lp, elems->Omega);
+
+  double M = L - Lp;
+
+  double period = cm_period(elems->a, CM_GM_SUN, gm[planet]);
+  double n = cm_mean_motion(period);
+  double Tsp = cm_time_since_periapsis(M, n);
+
+  elems->t_w = T - Tsp;
 }
 
 double
@@ -271,35 +269,7 @@ cm_long_of_peri_at_date(cm_body_id_t planet, double T)
        + epoch[planet]->pi[3] * T*T*T;
 }
 
-void
-cm_compute_mean_orbital_elements_j2000(cm_orbital_elements_t *elems,
-                                       cm_body_id_t planet, double T)
-{
-  elems->L = j2000[planet]->L[0]
-           + j2000[planet]->L[1] * T
-           + j2000[planet]->L[2] * T*T
-           + j2000[planet]->L[3] * T*T*T;
-  elems->a = j2000[planet]->a[0]
-           + j2000[planet]->a[1] * T
-           + j2000[planet]->a[2] * T*T
-           + j2000[planet]->a[3] * T*T*T;
-  elems->e = j2000[planet]->e[0]
-           + j2000[planet]->e[1] * T
-           + j2000[planet]->e[2] * T*T
-           + j2000[planet]->e[3] * T*T*T;
-  elems->i = j2000[planet]->i[0]
-           + j2000[planet]->i[1] * T
-           + j2000[planet]->i[2] * T*T
-           + j2000[planet]->i[3] * T*T*T;
-  elems->omega = j2000[planet]->omega[0]
-               + j2000[planet]->omega[1] * T
-               + j2000[planet]->omega[2] * T*T
-               + j2000[planet]->omega[3] * T*T*T;
-  elems->pi = j2000[planet]->pi[0]
-            + j2000[planet]->pi[1] * T
-            + j2000[planet]->pi[2] * T*T
-            + j2000[planet]->pi[3] * T*T*T;
-}
+
 
 double
 cm_mean_long_j2000(cm_body_id_t planet, double T)
@@ -349,4 +319,26 @@ cm_long_of_peri_j2000(cm_body_id_t planet, double T)
        + j2000[planet]->pi[1] * T
        + j2000[planet]->pi[2] * T*T
        + j2000[planet]->pi[3] * T*T*T;
+}
+
+void
+cm_compute_mean_orbital_elements_j2000(cm_orbital_elements_t *elems,
+                                       cm_body_id_t planet, double T)
+{
+  double L = cm_mean_long_j2000(planet, T);
+  elems->a = cm_semimajor_j2000(planet, T);
+  elems->e = cm_eccentricity_j2000(planet, T);
+  elems->i = cm_incl_to_ecl_j2000(planet, T);
+  elems->Omega = cm_long_of_asc_node_j2000(planet, T);
+
+  double Lp = cm_long_of_peri_j2000(planet, T);
+  elems->w = cm_arg_periapsis(Lp, elems->Omega);
+
+  double M = L - Lp;
+
+  double period = cm_period(elems->a, CM_GM_SUN, gm[planet]);
+  double n = cm_mean_motion(period);
+  double Tsp = cm_time_since_periapsis(M, n);
+
+  elems->t_w = T - Tsp;
 }

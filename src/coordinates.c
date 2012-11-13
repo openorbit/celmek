@@ -260,10 +260,11 @@ cm_state_vector_to_orbital_elements(cm_orbital_elements_t *oe,
 
   double M = ecc_an - ecc * sin(ecc_an);
 
+  // TODO: Fix this
   oe->a = a;
   oe->e = ecc;
   oe->i = inc;
-  oe->L = M;
-  oe->omega = long_asc;
-  oe->pi = arg_peri;
+  //oe->L = M;
+  oe->Omega = long_asc;
+  oe->w = arg_peri;
 }
