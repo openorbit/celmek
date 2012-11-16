@@ -46,6 +46,79 @@ is_leap_year(int y)
   if (y % 4 == 0) return true;
   return false;
 }
+
+// Implementation of polynomial expressions for delta T from
+//   http://eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html
+// Note that for ELP2000, c = -0.000012932 * (y - 1955)^2 needs to be addded to
+// values before 1955
+double
+cm_delta_t(int year, cm_month_t month)
+{
+  double y = year + ((month - 0.5) / 12.0);
+  double delta_t;
+
+  // TODO: Fix dispatching mechanism, this is most likelly very slow, but
+  // hopefully, the function will not be called that often.
+  if (year < -500) {
+    double u = (y - 1820.0)/100.0;
+    delta_t = -20.0 + 32 * u * u;
+  } else if (year < 500) {
+    double u = y / 100.0;
+    delta_t = 10583.6 - 1014.41 * u + 33.78311 * u * u - 5.952053 * u * u * u
+            - 0.1798452 * u * u * u * u + 0.022174192 * u * u * u * u * u
+            + 0.0090316521 * u * u * u * u * u * u;
+  } else if (year < 1600) {
+    double u = (y-1000.0)/100.0;
+    delta_t = 1574.2 - 556.01 * u + 71.23472 * u * u + 0.319781 * u * u * u
+            - 0.8503463 * u * u * u * u - 0.005050998 * u * u * u * u * u
+            + 0.0083572073 * u * u * u * u * u * u;
+  } else if (year < 1700) {
+    double t = y - 1600.0;
+    delta_t = 120.0 - 0.9808 * t - 0.01532 * t * t + t * t * t / 7129.0;
+  } else if (year < 1800) {
+    double t = y - 1700.0;
+    delta_t = 8.83 + 0.1603 * t - 0.0059285 * t*t + 0.00013336 * t*t*t
+            - t*t*t*t / 1174000.0;
+  } else if (year < 1860) {
+    double t = y - 1800.0;
+    delta_t = 13.72 - 0.332447 * t + 0.0068612 * t*t + 0.0041116 * t*t*t
+            - 0.00037436 * t*t*t*t + 0.0000121272 * t*t*t*t*t
+            - 0.0000001699 * t*t*t*t*t*t + 0.000000000875 * t*t*t*t*t*t*t;
+  } else if (year < 1900) {
+    double t = y - 1860.0;
+    delta_t = 7.62 + 0.5737 * t - 0.251754 * t*t + 0.01680668 * t*t*t
+            -0.0004473624 * t*t*t*t + t*t*t*t*t / 233174.0;
+  } else if (year < 1920) {
+    double t = y - 1900.0;
+    delta_t = -2.79 + 1.494119 * t - 0.0598939 * t*t + 0.0061966 * t*t*t
+            - 0.000197 * t*t*t*t;
+  } else if (year < 1941) {
+    double t = y - 1920.0;
+    delta_t = 21.20 + 0.84493*t - 0.076100 * t*t + 0.0020936 * t*t*t;
+  } else if (year < 1961) {
+    double t = y - 1950.0;
+    delta_t = 29.07 + 0.407*t - t*t/233.0 + t*t*t / 2547.0;
+  } else if (year < 1986) {
+    double t = y - 1975.0;
+    delta_t = 45.45 + 1.067*t - t*t/260.0 - t*t*t / 718.0;
+  } else if (year < 2005) {
+    double t = y - 2000.0;
+    delta_t = 63.86 + 0.3345 * t - 0.060374 * t*t + 0.0017275 * t*t*t
+            + 0.000651814 * t*t*t*t + 0.00002373599 * t*t*t*t*t;
+  } else if (year < 2050) {
+    double t = y - 2000.0;
+    delta_t = 62.92 + 0.32217 * t + 0.005589 * t*t;
+  } else if (year < 2150) {
+    double u = ((y-1820.0)/100.0);
+    delta_t = -20.0 + 32.0 * u*u - 0.5628 * (2150.0 - y);
+  } else {
+    double u = (y-1820.0)/100.0;
+    delta_t = -20.0 + 32.0 * u*u;
+  }
+
+
+  return delta_t;
+}
 // TDT = TT = ET ≈ TDB (within 2 ms at earth)
 
 // TDB / TCB conversion
