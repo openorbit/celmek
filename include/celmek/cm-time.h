@@ -71,6 +71,7 @@ int cm_read_iso_date_string(cm_date_time_t *dt, const char *str);
 
 // Convert JD tcb to JD tdb
 double cm_tcb_to_tdb(double tcb);
+double cm_tdb_to_tcb(double tdb);
 
 
 double cm_date_time_to_jd(const cm_date_time_t *date);

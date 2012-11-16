@@ -88,11 +88,39 @@ START_TEST(test_iso_date_reader)
 }
 END_TEST;
 
+typedef struct {
+  double tcb;
+  double tdb;
+} tcb_tdb_test_pair_t;
+
+// Values generated using IAU reference code
+tcb_tdb_test_pair_t tcb_tdb_test_data[] = {
+  {10000.000000,    10000.03772638570444541983},
+  {2012345.500000,  2012345.50667962292209267616},
+  {2456237.306285,  2456237.30608169268816709518},
+  {2956237.200000,  2956237.19204439548775553703},
+};
+
 START_TEST(test_tcb_to_tdb)
 {
-  // TODO: Implement test
+  // We assert an accuracy here of around 0.04 s
+  for (int i = 0 ; i < sizeof(tcb_tdb_test_data)/sizeof(tcb_tdb_test_data[0]); i++) {
+    double tdb = cm_tcb_to_tdb(tcb_tdb_test_data[i].tcb);
+    fail_unless(ALMOST_EQUAL(tdb, tcb_tdb_test_data[i].tdb, 0.0000005));
+  }
 }
 END_TEST;
+
+
+START_TEST(test_tdb_to_tcb)
+{
+  for (int i = 0 ; i < sizeof(tcb_tdb_test_data)/sizeof(tcb_tdb_test_data[0]); i++) {
+    double tcb = cm_tdb_to_tcb(tcb_tdb_test_data[i].tdb);
+    fail_unless(ALMOST_EQUAL(tcb, tcb_tdb_test_data[i].tcb, 0.0000005));
+  }
+}
+END_TEST;
+
 
 START_TEST(test_greg_to_jd)
 {
@@ -273,6 +301,7 @@ int main (int argc, char const *argv[])
   tcase_add_test(date_tests, test_jd_to_greg);
   tcase_add_test(date_tests, test_iso_date_reader);
   tcase_add_test(date_tests, test_tcb_to_tdb);
+  tcase_add_test(date_tests, test_tdb_to_tcb);
   suite_add_tcase(s, date_tests);
 
   SRunner *sr = srunner_create(s);

@@ -48,12 +48,26 @@ is_leap_year(int y)
 }
 // TDT = TT = ET ≈ TDB (within 2 ms at earth)
 
-// TDB
+// TDB / TCB conversion
+// Note that we use the JD for tcb and tdb here, therfore the expression is
+// adjusted from the IAU definition a little bit, as that expression is defined
+// in seconds. The TDB to TCB equation is derived from the TCB to TDB equation.
+// Note that these function use JD dates and only double precision, this is
+// good enough for our purposes, but if you really need higher precicion, use
+// the IAU SOFA library instead, it implements quad (double-double) precicion
+// arithmetic.
 double
 cm_tcb_to_tdb(double tcb)
 {
   return tcb - CM_LB * (tcb - CM_TCB_0) + CM_TDB0 / 86400.0;
 }
+
+double
+cm_tdb_to_tcb(double tdb)
+{
+  return (tdb - CM_TDB0 / 86400.0 - CM_LB * CM_TCB_0) / (1.0-CM_LB);
+}
+
 
 double
 cm_tai_to_tt(double tai)
