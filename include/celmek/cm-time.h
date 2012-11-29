@@ -23,6 +23,8 @@
 
 #include <stdint.h>
 
+#define CM_MJD 2400000.5
+
 typedef enum {
   CM_UNIX, // Unix time (seconds since 1970-01-01)
   CM_TAI, // Atomic coordinated time at sea-level
@@ -77,5 +79,14 @@ double cm_tdb_to_tcb(double tdb);
 double cm_date_time_to_jd(const cm_date_time_t *date);
 void cm_jd_to_date_time(double jd, cm_date_time_t *date);
 
+// Compute Delta T i.e. TT-UT, it should work for any historical date
+double cm_delta_t(int year, cm_month_t month);
+
+// Compute Delta AT i.e. TAI-UTC, this value is only defined from 1961-01-01 and
+// onwards, note that before leapseconds existed, broadcast time was adjusted
+// with smaller leap ticks of 100 ms or so. Function shoudl be correct for UTC
+// JDs, but TAI JDs should give a good estimate, except for during and around
+// the leap seconds.
+double cm_delta_at(double jd);
 
 #endif

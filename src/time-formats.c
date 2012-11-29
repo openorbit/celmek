@@ -166,25 +166,28 @@ cm_date_time_to_jd(const cm_date_time_t *date)
 
 
 int
-lsr_comp(const cm_date_time_t *key, const cm_leap_sec_range_t *memb)
+lsr_comp(const double *key, const cm_leap_sec_range_t *memb)
 {
+  if (*key < memb->jd_start) return -1;
+  if (*key >= memb->jd_end) return 1;
   return 0;
 }
 
-int
-cm_utc_leapseconds(cm_date_time_t *utc)
+double
+cm_delta_at(double jd) // Delta TAI-UTC
 {
-  if (utc->date.year >= 1972) {
-    cm_leap_sec_range_t *lsr = bsearch(&utc, leap_secs_1972,
-                                       sizeof(leap_secs_1972)/sizeof(leap_secs_1972[0]),
-                                       sizeof(leap_secs_1972[0]),
+  if (jd >= leap_secs[0].jd_start) {
+    cm_leap_sec_range_t *lsr = bsearch(&jd, leap_secs,
+                                       sizeof(leap_secs)/sizeof(leap_secs[0]),
+                                       sizeof(leap_secs[0]),
                                        (int (*)(const void*, const void*))lsr_comp);
-    if (lsr) return lsr->secs;
+    if (lsr) {
+      return lsr->offset + ((jd - CM_MJD) + lsr->mjd_offs) * lsr->mjd_scale;
+    }
   }
 
-  return 0;
+  return NAN;
 }
-
 
 void
 cm_jd_to_date_time(double jd, cm_date_time_t *date)
