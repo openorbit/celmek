@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Mattias Holm <lorrden(at)openorbit.org>.
+ * Copyright (c) 2012,2013, Mattias Holm <lorrden(at)openorbit.org>.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -100,21 +100,26 @@
 #define CM_MAKEMAKE_MASS   3.0e21
 #define CM_ERIS_MASS      16.7e21
 
+/*!
+ * Storage type for state vectors.
+ */
 typedef struct {
   double3 p;
   double3 v;
 } cm_state_vectors_t;
 
-// Stores osculating elements, we use time of periapsis instead of mean motion
-// since this makes more sense for hyperbolic trajectories
+/*!
+ * Stores osculating elements, we use time of periapsis instead of mean motion
+ * since this makes more sense for hyperbolic trajectories.
+ */
 typedef struct {
-  double a;    // Semimajor axis
-  double e;    // Eccentricity
-  double i;    // Inclination
-  double Omega;    // Long Ascending node
-  double w;   // Arg periapsis
-  double t_w; // Time of periapsis
-  double T;    // Period
+  double a;      //!< Semimajor axis
+  double e;      //!< Eccentricity
+  double i;      //!< Inclination
+  double Omega;  //!< Long Ascending node
+  double w;      //!< Arg periapsis
+  double t_w;    //!< Time of periapsis
+  double T;      //!< Period
 } cm_orbital_elements_t;
 
 #include <celmek/cm-time.h>
@@ -122,9 +127,13 @@ typedef struct {
 #include <celmek/cm-astro.h>
 #include <celmek/cm-model.h>
 
-// Initializes all methods (calling every method init, which among other things
-// will convert tables in degrees to radians). MUST BE CALLED BEFORE ANY OTHER
-// FUNCTION
+/*!
+ * \brief Initalises the celmek library.
+ *
+ * Initialises the celmek library (calling module inits, which among other
+ * things  will convert tables in degrees to radians).
+ * \note MUST BE CALLED BEFORE ANY OTHER FUNCTION.
+ */
 
 void cm_init(void);
 
