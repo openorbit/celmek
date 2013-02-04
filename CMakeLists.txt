@@ -42,3 +42,30 @@ install(TARGETS celmek
 
 install(FILES ${CELMEK_HDR}
         DESTINATION "include/celmek/")
+
+
+
+
+# Optionally add documentation target if we have Doxygen available
+find_package(Doxygen)
+
+if (DOXYGEN_FOUND)
+  # Try to locate dot, if available we use it to generate call graphs
+  find_program(DOT_EXECUTABLE dot)
+  if (DOT_EXECUTABLE)
+    set(DOT_FOUND "YES")
+    set(DOT_PATH "${DOT_EXECUTABLE}")
+  else (DOT_EXECUTABLE)
+    set(DOT_FOUND "NO")
+    set(DOT_PATH "")
+  endif (DOT_EXECUTABLE)
+
+  # Configure the doxygen file
+  set(DOXYGEN_CONFIG "${CMAKE_BINARY_DIR}/Doxyfile")
+
+  configure_file( "${CMAKE_SOURCE_DIR}/Doxyfile.in"
+    "${DOXYGEN_CONFIG}"
+    @ONLY)
+  add_custom_target(docs ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIG}
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+endif (DOXYGEN_FOUND)
