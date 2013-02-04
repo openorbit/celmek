@@ -41,6 +41,9 @@ struct {
   {"K01AM", {2001, 10, 22}},
 };
 
+/*!
+ * \test Test reading of packed dates from the MPC files.
+ */
 START_TEST(test_packed_dates)
 {
   cm_date_t date;
@@ -57,6 +60,9 @@ START_TEST(test_packed_dates)
 }
 END_TEST;
 
+/*!
+ * \test Test reading of ISO formatted dates.
+ */
 START_TEST(test_iso_date_reader)
 {
   cm_date_time_t dt;
@@ -101,6 +107,9 @@ tcb_tdb_test_pair_t tcb_tdb_test_data[] = {
   {2956237.200000,  2956237.19204439548775553703},
 };
 
+/*!
+ * \test Test conversion from TCB time to TDB time.
+ */
 START_TEST(test_tcb_to_tdb)
 {
   // We assert an accuracy here of around 0.04 s
@@ -111,7 +120,9 @@ START_TEST(test_tcb_to_tdb)
 }
 END_TEST;
 
-
+/*!
+ * \test Test conversion from TDB time to TCB time.
+ */
 START_TEST(test_tdb_to_tcb)
 {
   for (int i = 0 ; i < sizeof(tcb_tdb_test_data)/sizeof(tcb_tdb_test_data[0]); i++) {
@@ -121,7 +132,9 @@ START_TEST(test_tdb_to_tcb)
 }
 END_TEST;
 
-
+/*!
+ * \test Test conversion from gregorian dates to Julian Days.
+ */
 START_TEST(test_greg_to_jd)
 {
   cm_date_time_t dt = {{2000,1,1}, {12,0,0.0}};
@@ -131,6 +144,9 @@ START_TEST(test_greg_to_jd)
 }
 END_TEST;
 
+/*!
+ * \test Test conversion from Julian Days to Gregorian date-time.
+ */
 START_TEST(test_jd_to_greg)
 {
   cm_date_time_t dt;
@@ -145,17 +161,22 @@ START_TEST(test_jd_to_greg)
 }
 END_TEST;
 
-
+/*!
+ * \test Test cm_get_orbital_model.
+ */
 START_TEST(test_get_orbital_model)
 {
   cm_orbital_model_t *model = NULL;
   model = cm_get_orbital_model("vsop87");
   fail_if(strcmp(model->name, "vsop87"),
           "could not get vsop87 model");
-  
+
 }
 END_TEST;
 
+/*!
+ * \test Test Goffin 2000 pluto simultation.
+ */
 START_TEST(test_goffin2000_pos_at_jde)
 {
   double3 res = cm_goffin2000(2448908.5);
@@ -172,7 +193,9 @@ START_TEST(test_goffin2000_pos_at_jde)
 }
 END_TEST;
 
-
+/*!
+ * \test Test ELP 2000 moon simultation.
+ */
 START_TEST(test_elp2000)
 {
   double3 res = cm_elp2000_82b(2448724.5);
@@ -188,6 +211,9 @@ START_TEST(test_elp2000)
 }
 END_TEST;
 
+/*!
+ * \test Test conversion of equatorial coordinates between epochs.
+ */
 START_TEST(test_cm_equ_epoch_conv)
 {
   double2 res = cm_equ_epoch_conv(deg2rad(41.054063), deg2rad(49.227750),
@@ -200,6 +226,9 @@ START_TEST(test_cm_equ_epoch_conv)
 }
 END_TEST;
 
+/*!
+ * \test Test conversion from equatorial coordinates to ecliptic coordinates.
+ */
 START_TEST(test_cm_equ_to_ecl)
 {
   double2 res = cm_equ_to_ecl(deg2rad(116.328942), deg2rad(28.026183),
@@ -212,6 +241,9 @@ START_TEST(test_cm_equ_to_ecl)
 END_TEST;
 
 
+/*!
+ * \test Test conversion from ecliptic coordinates to equatorial coordinates.
+ */
 START_TEST(test_cm_ecl_to_equ)
 {
   double2 res = cm_ecl_to_equ(deg2rad(113.215630), deg2rad(6.684170),
@@ -230,6 +262,9 @@ END_TEST;
 // VSOP87 E Test
 #include "vsop87e-test.h"
 
+/*!
+ * \test Test vsop87e implementation.
+ */
 START_TEST(test_vsop87e)
 {
   for (int i = 0 ; i < sizeof(vsop87e_test_data)/sizeof(vsop87e_test_t) ; i++) {
@@ -266,7 +301,7 @@ START_TEST(test_vsop87e)
 END_TEST
 
 int main (int argc, char const *argv[])
-{ 
+{
   Suite *s = suite_create("orbital-sim");
 
   // Set up initial state, these functions have no unit test
@@ -275,18 +310,18 @@ int main (int argc, char const *argv[])
   TCase *modelquery = tcase_create("model-querying");
   tcase_add_test(modelquery, test_get_orbital_model);
   suite_add_tcase(s, modelquery);
-  
-  
+
+
   TCase *celcoord = tcase_create("celestial-coordinates");
   tcase_add_test(celcoord, test_cm_equ_epoch_conv);
   tcase_add_test(celcoord, test_cm_equ_to_ecl);
   tcase_add_test(celcoord, test_cm_ecl_to_equ);
   suite_add_tcase(s, celcoord);
- 
-  TCase *elp = tcase_create("elp2000-82b"); 
+
+  TCase *elp = tcase_create("elp2000-82b");
   tcase_add_test(elp, test_elp2000);
   suite_add_tcase(s, elp);
-  
+
   TCase *pluto = tcase_create("pluto");
   tcase_add_test(pluto, test_goffin2000_pos_at_jde);
   suite_add_tcase(s, pluto);
@@ -308,6 +343,6 @@ int main (int argc, char const *argv[])
   srunner_run_all(sr, CK_NORMAL);
   int failed = srunner_ntests_failed(sr);
   srunner_free(sr);
-  
+
   return (failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
