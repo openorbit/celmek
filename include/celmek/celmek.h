@@ -128,7 +128,7 @@ typedef struct {
 #include <celmek/cm-model.h>
 
 /*!
- * \brief Initalises the celmek library.
+ * Initalises the celmek library.
  *
  * Initialises the celmek library (calling module inits, which among other
  * things  will convert tables in degrees to radians).
