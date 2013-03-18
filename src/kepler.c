@@ -205,7 +205,7 @@ kepler_object_init(cm_orbit_t *orbit)
                           orbit->oparams[KEPLER_BASE_PLANE_DEC]);
 
   cm_elliptical_orbit_t *eo = orbit->omod_data;
-  m3m_mul(eo->R, eo->R, lrot);
+  md3_mul3(eo->R, eo->R, lrot);
 }
 
 static void
@@ -222,7 +222,7 @@ kepler_object_step(cm_orbit_t *orbit, cm_world_t *state)
     = cm_orbit_positon_at_offset(ellip,
                                  (state->jde - CM_J2000_0)/ellip->period);
   
-  orbit->p = m3vd_mul(ellip->R, p);
+  orbit->p = md3_v_mul(ellip->R, p);
   orbit->p = p;
 }
 
