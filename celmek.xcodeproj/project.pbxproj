@@ -59,6 +59,7 @@
 		EC842431163D36E800F8361B /* libcheck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC842430163D36E800F8361B /* libcheck.a */; };
 		EC84245B163FA46B00F8361B /* de4xx-sim.c in Sources */ = {isa = PBXBuildFile; fileRef = EC84245A163FA46B00F8361B /* de4xx-sim.c */; };
 		ECBF1902164CFD8E00C7E566 /* orbital-elements.c in Sources */ = {isa = PBXBuildFile; fileRef = ECBF1901164CFD8E00C7E566 /* orbital-elements.c */; };
+		ECE73AEF16F7039500A4662C /* libvmath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE73AEE16F7039500A4662C /* libvmath.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +190,7 @@
 		EC84246A1642AF7300F8361B /* cm-astro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "cm-astro.h"; sourceTree = "<group>"; };
 		ECBF1901164CFD8E00C7E566 /* orbital-elements.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "orbital-elements.c"; sourceTree = "<group>"; };
 		ECBF1904164FD53400C7E566 /* leap-sec-db.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "leap-sec-db.h"; sourceTree = "<group>"; };
+		ECE73AEE16F7039500A4662C /* libvmath.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libvmath.a; path = "../../../build/xcode/openorbit-dedsvcolgmnwsngknbkhajjvalec/Build/Products/Debug/libvmath.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECE73AEF16F7039500A4662C /* libvmath.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,6 +241,7 @@
 		EC697E22163AE2CE006B4407 = {
 			isa = PBXGroup;
 			children = (
+				ECE73AEE16F7039500A4662C /* libvmath.a */,
 				EC842430163D36E800F8361B /* libcheck.a */,
 				EC697E38163B171B006B4407 /* data */,
 				EC697E37163B16D5006B4407 /* tools */,
@@ -462,7 +466,7 @@
 		EC697E24163AE2CE006B4407 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Open Orbit";
 			};
 			buildConfigurationList = EC697E27163AE2CE006B4407 /* Build configuration list for PBXProject "celmek" */;
@@ -630,7 +634,16 @@
 		EC697E32163AE2CE006B4407 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../build/xcode/openorbit-dedsvcolgmnwsngknbkhajjvalec/Build/Products/Debug\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -638,7 +651,16 @@
 		EC697E33163AE2CE006B4407 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
+				HEADER_SEARCH_PATHS = (
+					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../build/xcode/openorbit-dedsvcolgmnwsngknbkhajjvalec/Build/Products/Debug\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -718,7 +740,8 @@
 		EC84244C163FA3CF00F8361B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../vmath/include";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -726,7 +749,8 @@
 		EC84244D163FA3CF00F8361B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				HEADER_SEARCH_PATHS = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				HEADER_SEARCH_PATHS = "${PROJECT_DIR}/../vmath/include";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
