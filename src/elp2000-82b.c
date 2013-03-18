@@ -424,7 +424,7 @@ void
 elp2000_transform(cm_orbit_t *obj, cm_world_t *state)
 {
   // ELP computes the position in geo-centric coordinates
-  obj->p = v3d_add(obj->p, obj->parent->p);
+  obj->p = vd3_add(obj->p, obj->parent->p);
 }
 
 void

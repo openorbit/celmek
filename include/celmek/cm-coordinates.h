@@ -22,6 +22,8 @@
 #ifndef celmek_cm_coordinates_h
 #define celmek_cm_coordinates_h
 
+#include <vmath/vmath.h>
+
 // Base JDEs
 #define CM_B1900_0 2415020.3135 //!< Julian date for the bessellian epoch B1900.0
 #define CM_B1950_0 2433282.4235 //!< Julian date for the bessellian epoch B1950.0

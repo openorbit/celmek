@@ -79,7 +79,7 @@ goffin_term_t terms[] = {
 };
 
 #define PLUTO_34_35_RAD     deg2rad(  34.35)
-#define PLUTO_3034_9057_RAD deg2rad(3034.9057) 
+#define PLUTO_3034_9057_RAD deg2rad(3034.9057)
 #define PLUTO_50_08_RAD     deg2rad(  50.08)
 #define PLUTO_1222_1138_RAD deg2rad(1222.1138)
 #define PLUTO_238_96_RAD    deg2rad( 238.96)
@@ -104,7 +104,7 @@ cm_goffin2000(double jde)
   //printf("P = %f\n", P);
 
   double longitude = 0.0, latitude = 0.0, rad = 0.0;
-  
+
   for (int i = 0 ; i < sizeof(terms)/sizeof(goffin_term_t) ; i ++) {
     double arg = terms[i].j * J + terms[i].s * S + terms[i].p * P;
 
@@ -114,24 +114,16 @@ cm_goffin2000(double jde)
   }
   //printf("sums: %f %f %f\n", longitude, latitude, rad);
 
-  // Adjust for scale in tables
-//  longitude *= 1.e-6;
-//  latitude *= 1.e-6;
-//  rad *= 1.e-7;
-
-  //printf("adjusted: %f %f %f\n", longitude, latitude, rad);
-
   longitude += PLUTO_238_956785_RAD + PLUTO_144_96_RAD * T;
   latitude -= PLUTO_3_908202_RAD;
   rad += 40.7247248;
 
-  //printf("added: %f %f %f\n", longitude, latitude, rad);
   // We now have heliocentric equatorial coordinates for J2000
   // We need to convert these to rectangular coordinates. One problem is that
   // This method results in heliocentric coordinates, these need to be
   // translated by the sun
 
-  // TODO: TO barycentric
+  // TODO: To barycentric
   double3 p = {longitude, latitude, rad};
   return p;
 }
@@ -162,13 +154,13 @@ pluto_transform(cm_orbit_t *obj, cm_world_t *state)
   // At this point, all bodies have had their positions calculated, so we
   // convert the heliocentric position as given to solar system barycentric
   // This is trivial, we simply add the sol position to the position of pluto
-  obj->p = v3d_add(obj->p, obj->parent->p);
+  obj->p = vd3_add(obj->p, obj->parent->p);
 }
 
 void
 pluto_object_init(cm_orbit_t *obj)
 {
-  
+
 }
 
 static cm_orbital_model_t pluto_model = {
@@ -182,6 +174,7 @@ static cm_orbital_model_t pluto_model = {
 void
 goffin_j2000_init(void)
 {
+  // Adjust table scales and convert degrees to radians.
   for (int i = 0 ; i < sizeof(terms)/sizeof(goffin_term_t) ; i ++) {
     terms[i].long_a *= 1.e-6;
     terms[i].long_b *= 1.e-6;
@@ -197,7 +190,3 @@ goffin_j2000_init(void)
 
   cm_register_orbital_model(&pluto_model);
 }
-//CM_INIT {
-//  cm_register_orbital_model(&pluto_model);
-//}
-

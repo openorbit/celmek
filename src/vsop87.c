@@ -219,8 +219,8 @@ vsop87_step_object(cm_orbit_t *obj, cm_world_t *state)
     {-0.000000479966, 0.917482137087, -0.397776982902},
     { 0.000000000000, 0.397776982902,  0.917482137087}};
 
-  pos.p = m3vd_mul(R, pos.p);
-  pos.v = m3vd_mul(R, pos.v);
+  pos.p = md3_v_mul(R, pos.p);
+  pos.v = md3_v_mul(R, pos.v);
 
   obj->p.x = pos.p.x * CM_AU_IN_M;
   obj->p.y = pos.p.y * CM_AU_IN_M;

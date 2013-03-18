@@ -170,8 +170,8 @@ cm_zxz_rotmatrix(double3x3 R, double asc_node, double incl, double arg_peri)
 void
 cm_vector_rotmatrix(double3x3 R, const double3 v0, const double3 v1)
 {
-  double a = acos(v3d_dot(v0, v1)); 
-  double3 u = v3d_norm(v3d_cross(v0, v1));
+  double a = acos(vd3_dot(v0, v1));
+  double3 u = vd3_normalise(vd3_cross(v0, v1));
 
   R[0].x = cos(a) + u.x*u.x*(1.0-cos(a));
   R[0].y = u.x*u.y*(1.0-cos(a))-u.z*sin(a);
@@ -208,54 +208,54 @@ void
 cm_state_vector_to_orbital_elements(cm_orbital_elements_t *oe,
                                     const cm_state_vectors_t *sv)
 {
-  double r2 = v3d_dot(sv->p, sv->p);
-  double v2 = v3d_dot(sv->v, sv->v);
+  double r2 = vd3_dot(sv->p, sv->p);
+  double v2 = vd3_dot(sv->v, sv->v);
   double r = sqrt(r2);
   //double v = sqrt(v2);
   double GM = CM_MU;
-  double3 h = v3d_cross(sv->p, sv->p);
+  double3 h = vd3_cross(sv->p, sv->p);
 
-  double3 e = v3d_cross(sv->v, h);
+  double3 e = vd3_cross(sv->v, h);
   e.x /= GM;
   e.y /= GM;
   e.z /= GM;
   double3 rn = {-sv->p.x/r, -sv->p.y/r, -sv->p.z/r};
-  e = v3d_add(e, rn);
+  e = vd3_add(e, rn);
   double3 n = {-h.y, h.z, 0};
 
-  double inc = acos(h.z/sqrt(v3d_dot(h, h)));
+  double inc = acos(h.z/sqrt(vd3_dot(h, h)));
   double ta;
-  if (v3d_dot(sv->p, sv->v) >= 0.0) {
-    ta = acos(v3d_dot(e, sv->p)/sqrt(v3d_dot(e, e))*r);
+  if (vd3_dot(sv->p, sv->v) >= 0.0) {
+    ta = acos(vd3_dot(e, sv->p)/sqrt(vd3_dot(e, e))*r);
   } else {
-    ta = 2.0 * M_PI - acos(v3d_dot(e, sv->p)/sqrt(v3d_dot(e, e))*r);
+    ta = 2.0 * M_PI - acos(vd3_dot(e, sv->p)/sqrt(vd3_dot(e, e))*r);
   }
   // Semi-major axis
   double a = 1.0 / (2.0/r + v2/GM);
   // Eccentricity vector
   double3 E;
-  E.x = v2 * sv->p.x / CM_MU - v3d_dot(sv->p, sv->v) * sv->v.x / CM_MU
+  E.x = v2 * sv->p.x / CM_MU - vd3_dot(sv->p, sv->v) * sv->v.x / CM_MU
       - sv->p.x / r;
-  E.y = v2 * sv->p.y / CM_MU - v3d_dot(sv->p, sv->v) * sv->v.y / CM_MU
+  E.y = v2 * sv->p.y / CM_MU - vd3_dot(sv->p, sv->v) * sv->v.y / CM_MU
       - sv->p.y / r;
-  E.z = v2 * sv->p.z / CM_MU - v3d_dot(sv->p, sv->v) * sv->v.z / CM_MU
+  E.z = v2 * sv->p.z / CM_MU - vd3_dot(sv->p, sv->v) * sv->v.z / CM_MU
       - sv->p.z / r;
 
-  double ecc = sqrt(v3d_dot(E, E)); //Eccentricity
+  double ecc = sqrt(vd3_dot(E, E)); //Eccentricity
   double ecc_an = 2.0 * atan(tan(ta/2.0)/sqrt((1.0 + ecc)/(1.0-ecc)));
 
   double long_asc;
   double arg_peri;
   if (n.y >= 0.0) {
-    long_asc = acos(n.z/sqrt(v3d_dot(n, n)));
+    long_asc = acos(n.z/sqrt(vd3_dot(n, n)));
   } else {
-    long_asc = 2*M_PI - acos(n.z/sqrt(v3d_dot(n, n)));
+    long_asc = 2*M_PI - acos(n.z/sqrt(vd3_dot(n, n)));
   }
 
   if (e.z >= 0.0) {
-    arg_peri = acos(v3d_dot(n, e)/sqrt(v3d_dot(n, n))*sqrt(v3d_dot(e, e)));
+    arg_peri = acos(vd3_dot(n, e)/sqrt(vd3_dot(n, n))*sqrt(vd3_dot(e, e)));
   } else {
-    arg_peri = 2.0*M_PI - acos(v3d_dot(n, e)/sqrt(v3d_dot(n, n))*sqrt(v3d_dot(e, e)));
+    arg_peri = 2.0*M_PI - acos(vd3_dot(n, e)/sqrt(vd3_dot(n, n))*sqrt(vd3_dot(e, e)));
   }
 
   double M = ecc_an - ecc * sin(ecc_an);
