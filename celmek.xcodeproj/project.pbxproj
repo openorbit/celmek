@@ -59,7 +59,7 @@
 		EC842431163D36E800F8361B /* libcheck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC842430163D36E800F8361B /* libcheck.a */; };
 		EC84245B163FA46B00F8361B /* de4xx-sim.c in Sources */ = {isa = PBXBuildFile; fileRef = EC84245A163FA46B00F8361B /* de4xx-sim.c */; };
 		ECBF1902164CFD8E00C7E566 /* orbital-elements.c in Sources */ = {isa = PBXBuildFile; fileRef = ECBF1901164CFD8E00C7E566 /* orbital-elements.c */; };
-		ECE73AEF16F7039500A4662C /* libvmath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE73AEE16F7039500A4662C /* libvmath.a */; };
+		ECE73AF516FAF91C00A4662C /* libvmath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE73AEE16F7039500A4662C /* libvmath.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,7 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECE73AEF16F7039500A4662C /* libvmath.a in Frameworks */,
+				ECE73AF516FAF91C00A4662C /* libvmath.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +640,7 @@
 					"${PROJECT_DIR}/include",
 					"${PROJECT_DIR}/../vmath/include",
 				);
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../build/xcode/openorbit-dedsvcolgmnwsngknbkhajjvalec/Build/Products/Debug\"",
@@ -657,6 +658,7 @@
 					"${PROJECT_DIR}/include",
 					"${PROJECT_DIR}/../vmath/include",
 				);
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../../build/xcode/openorbit-dedsvcolgmnwsngknbkhajjvalec/Build/Products/Debug\"",
