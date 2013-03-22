@@ -131,9 +131,13 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
     w += body->w_cosines[i].a * cosines[body->w_cosines[i].cosine];      
   }
 
-  orbit->r.x = alpha;
-  orbit->r.y = delta;
-  orbit->W = w;
+  orbit->r.x = alpha; // Right asencion
+  orbit->r.y = delta; // Declination
+  orbit->W = w; //
+
+  orbit->q = q_rot(0,0,1, M_PI_4 + alpha);
+  orbit->q = q_mul(orbit->q, q_rot(1,0,0, M_PI_4 - delta));
+  orbit->q = q_mul(orbit->q, q_rot(0,0,1, w));
 }
 
 static cm_rotational_model_t iau_rot_model = {

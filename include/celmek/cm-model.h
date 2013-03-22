@@ -54,6 +54,7 @@ typedef struct cm_orbit_t {
   double3 v; //!< Velocity
   double3 r; //!< Rotational vector
   double W;  //!< Rotation around vector
+  quaternion_t q; //!< Quaternion to rotate with respect to ICRF
 } cm_orbit_t;
 
 /*!
