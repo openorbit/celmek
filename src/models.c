@@ -121,6 +121,29 @@ size_t rot_model_count;
 size_t rot_model_length;
 cm_rotational_model_t **rot_models;
 
+cm_orbits_t _orbits = {0,0,NULL};
+
+void
+cm_add_orbit(cm_orbit_t *orbit)
+{
+  if (_orbits.orbits == NULL) {
+    _orbits.alen = 8;
+    _orbits.orbits = calloc(8, sizeof(cm_orbit_t*));
+  }
+  if (_orbits.alen >= _orbits.len) {
+    _orbits.alen *= 2;
+    _orbits.orbits = realloc(_orbits.orbits, _orbits.alen*sizeof(cm_orbit_t*));
+  }
+
+  _orbits.orbits[_orbits.len ++] = orbit;
+}
+
+const cm_orbits_t*
+cm_get_orbits(void)
+{
+  return &_orbits;
+}
+
 // TODO: Check for malloc errors
 void
 cm_register_orbital_model(cm_orbital_model_t *model)
@@ -252,6 +275,8 @@ cm_init_orbits(void)
   for (int i = 0 ; i < sizeof(orbits)/sizeof(cm_orbit_t) ; i++) {
     cm_orbit_t *o = &orbits[i];
     cm_init_orbit(o);
+
+    cm_add_orbit(o);
   }
 }
 
@@ -278,28 +303,31 @@ cm_orbit_compute(double jde)
   }
 
   // Compute positions
-  for (int i = 0 ; i < sizeof(orbits)/sizeof(cm_orbit_t) ; i++) {
-    cm_orbit_t *o = &orbits[i];
+  for (int i = 0 ; i < _orbits.len ; i++) {
+    cm_orbit_t *o = _orbits.orbits[i];
     o->omod->step_object(o, &state);
   }
 
   // And rotations
-  for (int i = 0 ; i < sizeof(orbits)/sizeof(cm_orbit_t) ; i++) {
-    cm_orbit_t *o = &orbits[i];
+  for (int i = 0 ; i < _orbits.len ; i++) {
+    cm_orbit_t *o = _orbits.orbits[i];
     if (o->rmod && o->rmod_data) o->rmod->step_object(o, &state);
   }
 
   // Last thing to do is to execute the transform functions, this
   // function can be used to transform positions and rotations
-  for (int i = 0 ; i < sizeof(orbits)/sizeof(cm_orbit_t) ; i++) {
-    cm_orbit_t *o = &orbits[i];
+  for (int i = 0 ; i < _orbits.len ; i++) {
+    cm_orbit_t *o = _orbits.orbits[i];
     if (o->omod && o->omod->transform) o->omod->transform(o, &state);
   }
 }
 
+static int _initialized;
 void
 cm_init(void)
 {
+  if (_initialized) return;
+  _initialized = 1;
   // Orbital models
   vsop87_init();
   elp2000_82b_init();
@@ -313,4 +341,7 @@ cm_init(void)
 
   cm_init_models();
   cm_init_orbits();
+
+  // Ensure we have a reasonable initial state.
+  cm_orbit_compute(CM_J2000_0);
 }
