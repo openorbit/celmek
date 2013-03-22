@@ -52,10 +52,21 @@ typedef struct cm_orbit_t {
 
   double3 p; //!< Position
   double3 v; //!< Velocity
+
   double3 r; //!< Rotational vector
   double W;  //!< Rotation around vector
   quaternion_t q; //!< Quaternion to rotate with respect to ICRF
+
+  double mass; //!< Mass in kg
+  double GM; //!< Gravitational parameter in m^3s^{-2}, derived from mass.
+  double radius; //!< Rough radius of the body
 } cm_orbit_t;
+
+typedef struct {
+  size_t alen;
+  size_t len;
+  cm_orbit_t **orbits;
+} cm_orbits_t;
 
 /*!
  * World state computed once and used for all objects being updated.

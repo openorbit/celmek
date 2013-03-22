@@ -24,61 +24,94 @@
 
 #include <celmek/celmek.h>
 
+// TODO: Physical parameters like radius are ment to allow a bounding sphere to
+//       be created. Therefore, the equatorial or mean radius values are not
+//       correct and should be changed to a bounding sphere radius.
 cm_orbit_t orbits[] = {
-  {"sun",      NULL,   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"mercury", "sun",   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"venus",   "sun",   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"earth",   "sun",   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"moon",    "earth", NULL, "elp2000-82b",  "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"mars",    "sun",   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"jupiter", "sun",   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"saturn",  "sun",   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"uranus",  "sun",   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"neptune", "sun",   NULL, "vsop87",       "iau-std-rot", .oparams = {}, .rparams = {}},
-  {"pluto",   "sun",   NULL, "pluto",        "iau-std-rot", .oparams = {}, .rparams = {}},
+  {"sun",      NULL,   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 1.989e30,
+    .radius = 6.96342e8},
+  {"mercury", "sun",   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 3.301e23, .radius = 2439.7e3},
+  {"venus",   "sun",   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 4.1380e24, .radius = 6051.8e3},
+  {"earth",   "sun",   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 5.972e24, .radius = 6378.1e3},
+  {"moon",    "earth", NULL, "elp2000-82b",  "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 7.346e22, .radius = 1738.14e3},
+  {"mars",    "sun",   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 6.4273e23, .radius = 3396.2e3},
+  {"jupiter", "sun",   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 1.89852e27, .radius = 71492.0e3},
+  {"saturn",  "sun",   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 5.6846e26, .radius = 60268.0e3},
+  {"uranus",  "sun",   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 8.6819e25, .radius = 25559.0e3},
+  {"neptune", "sun",   NULL, "vsop87",       "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 1.02431e26, .radius = 24764.0e3},
+  {"pluto",   "sun",   NULL, "pluto",        "iau-std-rot",
+    .oparams = {}, .rparams = {}, .mass = 1.31e22, .radius = 1153.0e3},
 
   // Need to double check all the parameters, they have been entered very
-  // hastilly to do performance tests
-  {"phobos", "mars", NULL, "kepler",        "iau-std-rot",
-   .oparams = {0.31891023, 9377.2, 0.0151, 1.093}, .rparams = {}},
-  {"deimos", "mars", NULL, "kepler",        "iau-std-rot",
-   .oparams = {1.26244,23460, 0.0002, 0.93}, .rparams = {}},
+  // hastilly to do performance tests.
+  {"phobos", "mars", NULL, "kepler",          "iau-std-rot",
+    .oparams = {0.31891023, 9377.2, 0.0151, 1.093}, .rparams = {},
+    .mass = 1.072e16, .radius = 11.1e3},
+  {"deimos", "mars", NULL, "kepler",          "iau-std-rot",
+    .oparams = {1.26244,23460, 0.0002, 0.93}, .rparams = {},
+    .mass = 1.48e15, .radius = 6.2e3},
 
   {"europa",   "jupiter", NULL, "kepler",        "iau-std-rot",
-   .oparams = {3.551181, 670900, 0.009, 0.470}, .rparams = {}},
+    .oparams = {3.551181, 670900, 0.009, 0.470}, .rparams = {},
+    .mass = 4.80e22, .radius = 1560.8e3},
   {"ganymede", "jupiter", NULL, "kepler",        "iau-std-rot",
-   .oparams = {7.15455296, 1070400, 0.0013, 0.20}, .rparams = {}},
+    .oparams = {7.15455296, 1070400, 0.0013, 0.20}, .rparams = {},
+    .mass = 1.48e23, .radius = 2634.1e3},
   {"io",       "jupiter", NULL, "kepler",        "iau-std-rot",
-   .oparams = {1.769137786, 421700,0.0041, 0.05}, .rparams = {}},
+    .oparams = {1.769137786, 421700,0.0041, 0.05}, .rparams = {},
+    .mass = 8.93e22, .radius = 1821.3e3},
   {"callisto", "jupiter", NULL, "kepler",        "iau-std-rot",
-   .oparams = {16.6890184, 1882700,0.0074, 0.192}, .rparams = {}},
+    .oparams = {16.6890184, 1882700,0.0074, 0.192}, .rparams = {},
+    .mass = 1.08e23, .radius = 2410.3e3},
   
   {"titan",    "saturn", NULL, "kepler",        "iau-std-rot",
-   .oparams = {15.945, 1221870, 0.0288, 0.34854}, .rparams = {}},
+    .oparams = {15.945, 1221870, 0.0288, 0.34854}, .rparams = {},
+    .mass = 1.35e23, .radius = 2576.0e3},
   {"tethys",   "saturn", NULL, "kepler",        "iau-std-rot",
-   .oparams = {1.887802, 294619, 0.0001, 1.12}, .rparams = {}},
+    .oparams = {1.887802, 294619, 0.0001, 1.12}, .rparams = {},
+    .mass = 6.17449e20, .radius = 531.1e3},
   {"dione",    "saturn", NULL, "kepler",        "iau-std-rot",
-   .oparams = {2.736915, 377396, 0.0022, 0.019}, .rparams = {}},
+    .oparams = {2.736915, 377396, 0.0022, 0.019}, .rparams = {},
+    .mass = 1.095452e21, .radius = 561.4e3},
   {"rhea",     "saturn", NULL, "kepler",        "iau-std-rot",
-   .oparams = {4.518212, 527108, 0.0012583, 0.345}, .rparams = {}},
+    .oparams = {4.518212, 527108, 0.0012583, 0.345}, .rparams = {},
+    .mass = 2.306518e21, .radius = 763.8e3},
   {"iapetus",  "saturn", NULL, "kepler",        "iau-std-rot",
-   .oparams = {79.3215, 3560820, 0.0286125, 15.47}, .rparams = {}},
+    .oparams = {79.3215, 3560820, 0.0286125, 15.47}, .rparams = {},
+    .mass = 1.805635e21, .radius = 734.5e3},
   
   {"titania",  "uranus", NULL, "kepler",        "iau-std-rot",
-   .oparams = {8.706234, 435910, 0.0011, 0.340}, .rparams = {}},
+    .oparams = {8.706234, 435910, 0.0011, 0.340}, .rparams = {},
+    .mass = 3.52e21, .radius = 788.4e3},
   {"oberon",   "uranus", NULL, "kepler",        "iau-std-rot",
-   .oparams = {13.463234, 583520, 0.0014, 0.058}, .rparams = {}},
+    .oparams = {13.463234, 583520, 0.0014, 0.058}, .rparams = {},
+    .mass = 3.01e21, .radius = 761.4e3},
   {"ariel",    "uranus", NULL, "kepler",        "iau-std-rot",
-   .oparams = {2.520, 191020, 0.0012, 0.260}, .rparams = {}},
+    .oparams = {2.520, 191020, 0.0012, 0.260}, .rparams = {},
+    .mass = 1.353e21, .radius = 578.9e3},
   {"umbriel",  "uranus", NULL, "kepler",        "iau-std-rot",
-   .oparams = {4.144, 266000, 0.0039, 0.128}, .rparams = {}},
+    .oparams = {4.144, 266000, 0.0039, 0.128}, .rparams = {},
+    .mass = 1.172e21, .radius = 584.7e3},
   {"miranda",  "uranus", NULL, "kepler",        "iau-std-rot",
-   .oparams = {1.413479, 129390, 0.0013, 4.232}, .rparams = {}},
+    .oparams = {1.413479, 129390, 0.0013, 4.232}, .rparams = {},
+    .mass = 6.59e19, .radius = 235.8e3},
   
   {"triton",   "neptune", NULL, "kepler",        "iau-std-rot",
-   .oparams = {-5.876854, 354759, 0.000016, 156.885}, .rparams = {}},
+    .oparams = {-5.876854, 354759, 0.000016, 156.885}, .rparams = {},
+    .mass = 2.14e22, 1353.4e3},
   {"nereid",   "neptune", NULL, "kepler",        "iau-std-rot",
-   .oparams = {360.1362, 5513787, 0.7507, 32.55}, .rparams = {}},
+    .oparams = {360.1362, 5513787, 0.7507, 32.55}, .rparams = {},
+    .mass = 3.1e19, .radius = 170e3},
 };
 
 size_t orbital_model_count;
@@ -206,6 +239,9 @@ cm_init_orbit(cm_orbit_t *orbit)
 
   if (om) om->init_object(orbit);
   if (rm) rm->init_object(orbit);
+
+  // Unless no GM is given, compute from mass
+  if (orbit->GM == 0.0) orbit->GM = CM_G__M_KG_S * orbit->mass;
 
   orbit->parent = cm_get_orbit_by_name(orbit->parent_name);
 }
