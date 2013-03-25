@@ -232,7 +232,7 @@ END_TEST;
 START_TEST(test_cm_equ_to_ecl)
 {
   double2 res = cm_equ_to_ecl(deg2rad(116.328942), deg2rad(28.026183),
-                              deg2rad(CM_J2000_OBL));
+                              deg2rad(CM_J2000_OBL_DEG));
   fail_unless(ALMOST_EQUAL(rad2deg(res.x), 113.215630, 0.0000005),
               "convert equ to ecl new lon not valid");
   fail_unless(ALMOST_EQUAL(rad2deg(res.y), 6.684170, 0.0000005),
@@ -247,7 +247,7 @@ END_TEST;
 START_TEST(test_cm_ecl_to_equ)
 {
   double2 res = cm_ecl_to_equ(deg2rad(113.215630), deg2rad(6.684170),
-                              deg2rad(CM_J2000_OBL));
+                              deg2rad(CM_J2000_OBL_DEG));
 
   fail_unless(ALMOST_EQUAL(rad2deg(res.x), 116.328942, 0.000001),
               "convert ecl to equ new ra not valid result = %f != %f",
