@@ -53,16 +53,19 @@ iau_rot_model_step(cm_rotational_model_t *model, cm_world_t *state)
 {
   // First we compute all the terms, some of these are needed for
   // several bodies
+  double d = state->d - CM_J2000_0;
+  double T = state->T - CM_J2000_0/CM_JD_PER_CENT;
+
   for (int i = 0 ; i < sizeof(d_terms)/sizeof(iau_term_t) ; i ++) {
-    terms[d_terms[i].term] = d_terms[i].a + d_terms[i].b * state->d;  
+    terms[d_terms[i].term] = d_terms[i].a + d_terms[i].b * d;
   }
 
   for (int i = 0 ; i < sizeof(T_terms)/sizeof(iau_term_t) ; i ++) {
-    terms[T_terms[i].term] = T_terms[i].a + T_terms[i].b * state->T;  
+    terms[T_terms[i].term] = T_terms[i].a + T_terms[i].b * T;
   }
   
   for (int i = 0 ; i < sizeof(T2_terms)/sizeof(iau_term2_t) ; i ++) {
-    terms[T2_terms[i].term] += T2_terms[i].a * state->T * state->T;
+    terms[T2_terms[i].term] += T2_terms[i].a * T * T;
   }  
 
   // The terms are used as arguments to sin and cos, we compute these here
@@ -105,15 +108,18 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
 {
   iau_body_t *body = orbit->rmod_data;
 
+  double d = state->d - CM_J2000_0;
+  double T = state->T - CM_J2000_0/CM_JD_PER_CENT;
+
   double alpha = 0.0;
   double delta = 0.0;
   double w = 0.0;
 
-  alpha += body->a0 + body->aT * state->T;
-  delta += body->d0 + body->dT * state->T;
-  w += body->w0 + body->wd * state->d;
-  w += body->wd_2 * state->d * state->d;
-  w += body->wT_2 * state->T * state->T;
+  alpha += body->a0 + body->aT * T;
+  delta += body->d0 + body->dT * T;
+  w += body->w0 + body->wd * d;
+  w += body->wd_2 * d * d;
+  w += body->wT_2 * T * T;
   
   for (int i = 0 ; i < body->asin_count ; i ++) {
     alpha += body->alpha_sines[i].a * sines[body->alpha_sines[i].sine];
@@ -133,7 +139,7 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
 
   orbit->r.x = alpha; // Right asencion
   orbit->r.y = delta; // Declination
-  orbit->W = w; //
+  orbit->W = w; // Rot around axis
 
   orbit->q = q_rot(0,0,1, M_PI_4 + alpha);
   orbit->q = q_mul(orbit->q, q_rot(1,0,0, M_PI_4 - delta));
