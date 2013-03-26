@@ -46,7 +46,7 @@ cm_ecl_to_equ(double lon, double lat, double obliq)
 }
 
 //alpha = ra
-//sigma = decl
+//delta = decl
 
 // Note, proper motions not included
   
@@ -89,8 +89,10 @@ cm_equ_epoch_conv(double ra0, double decl0, double jde0, double jde)
   double2 res = {ra, decl};
   return res;
 }
+
 // lambda = longitude
 // beta = latitude
+// Meeus p128
 double2
 cm_ecl_epoch_conv(double lon0, double lat0, double jde0, double jde)
 {

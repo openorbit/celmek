@@ -130,7 +130,7 @@ cm_orbital_elements_set_orbital_period(cm_orbital_elements_t *oe, double T)
 
 
 bool
-cm_orbital_elements_check(cm_orbital_elements_t *oe)
+cm_orbital_elements_check(const cm_orbital_elements_t *oe)
 {
   if (isnan(oe->a)) return false;
   if (isnan(oe->e)) return false;

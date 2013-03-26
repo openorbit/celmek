@@ -137,7 +137,7 @@ void
 pluto_object_step(cm_orbit_t *obj, cm_world_t *state)
 {
   double3 sp = cm_goffin2000(state->jde);
-  double2 eq = cm_ecl_to_equ(sp.x, sp.y, CM_J2000_OBL);
+  double2 eq = cm_ecl_to_equ(sp.x, sp.y, CM_J2000_OBL_DEG*VMATH_RAD_PER_DEG);
 
   double3 rp = cm_spherical_to_rect(eq.x, eq.y, sp.z);
 

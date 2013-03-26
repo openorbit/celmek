@@ -30,8 +30,8 @@
 #define CM_J2000_0 2451545.00   //!< Julian date for the epoch J2000.0
 #define CM_J2050_0 2469807.00   //!< Julian date for J2050.0
 
-#define CM_J2000_OBL 23.4392911 //!< Obliquity at epoch J2000
-#define CM_B1950_OBL 23.4457889 //!< Obliquity at epoch B1950
+#define CM_J2000_OBL_DEG 23.4392911 //!< Obliquity at epoch J2000
+#define CM_B1950_OBL_DEG 23.4457889 //!< Obliquity at epoch B1950
 
 // Reference frame for objects
 typedef enum {
