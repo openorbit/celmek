@@ -55,6 +55,7 @@ typedef struct cm_orbit_t {
 
   double3 r; //!< Rotational vector
   double W;  //!< Rotation around vector
+  double W_prime; //!< Derivative of W, with respect to t (in days).
   quaternion_t q; //!< Quaternion to rotate with respect to ICRF
 
   double mass; //!< Mass in kg

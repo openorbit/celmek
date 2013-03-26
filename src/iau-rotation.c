@@ -66,7 +66,7 @@ iau_rot_model_step(cm_rotational_model_t *model, cm_world_t *state)
   
   for (int i = 0 ; i < sizeof(T2_terms)/sizeof(iau_term2_t) ; i ++) {
     terms[T2_terms[i].term] += T2_terms[i].a * T * T;
-  }  
+  }
 
   // The terms are used as arguments to sin and cos, we compute these here
   // Note that the cosine_rules and sine_rules tables are auto generated
@@ -108,8 +108,8 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
 {
   iau_body_t *body = orbit->rmod_data;
 
-  double d = state->d - CM_J2000_0;
-  double T = state->T - CM_J2000_0/CM_JD_PER_CENT;
+  double d = state->d;
+  double T = state->T;
 
   double alpha = 0.0;
   double delta = 0.0;
@@ -117,10 +117,10 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
 
   alpha += body->a0 + body->aT * T;
   delta += body->d0 + body->dT * T;
-  w += body->w0 + body->wd * d;
-  w += body->wd_2 * d * d;
-  w += body->wT_2 * T * T;
-  
+  w += fmod(body->w0 + body->wd * d, 2.0*M_PI);
+  w += fmod(body->wd_2 * d * d, 2.0*M_PI);
+  w += fmod(body->wT_2 * T * T, 2.0*M_PI);
+  w = fmod(w, 2.0*M_PI);
   for (int i = 0 ; i < body->asin_count ; i ++) {
     alpha += body->alpha_sines[i].a * sines[body->alpha_sines[i].sine];
   }
@@ -139,11 +139,32 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
 
   orbit->r.x = alpha; // Right asencion
   orbit->r.y = delta; // Declination
-  orbit->W = w; // Rot around axis
+  orbit->W = w;//fmod(w, 2.0 * M_PI); // Rot around axis
+
+  // For a progam using these routines, the derivative of w is very interesting
+  // the derivative allow us to for example easily compute a rough estimate of
+  // airspeed.
+
+  // The general equation for the w parameter is:
+  //   w = a0 + a1 * d + a2 sin (a3 + a4 d) + a5 cos (a6 + a7 d)
+  // This means that:
+  //   w' = a1 + a2 a4 cos(a3 + a4 d) + a5 a7 sin (a6 + a7 d)
+  // Note that the parameters to the sin and cos function are sometimes given
+  // in julian centuries (i.e. d/36525).
+  double w_prime = body->wd + 2.0 * body->wd_2 * d
+                 + 2.0 * body->wT_2 * T/CM_JD_PER_CENT;
+  //for (int i = 0 ; i < body->wsin_count ; i ++) {
+  //  w_prime += body->w_sines[i].a * sines[body->w_sines[i].sine];
+  //}
+
+  //for (int i = 0 ; i < body->wcos_count ; i ++) {
+  //  w_prime += body->w_cosines[i].a * cosines[body->w_cosines[i].cosine];
+  //}
+  orbit->W_prime = w_prime; // TODO: Ensure we add cos and sine terms
 
   orbit->q = q_rot(0,0,1, M_PI_4 + alpha);
-  orbit->q = q_mul(orbit->q, q_rot(1,0,0, M_PI_4 - delta));
-  orbit->q = q_mul(orbit->q, q_rot(0,0,1, w));
+  orbit->q = q_normalise(q_mul(orbit->q, q_rot(1,0,0, M_PI_4 - delta)));
+  orbit->q = q_normalise(q_mul(orbit->q, q_rot(0,0,1, w)));
 }
 
 static cm_rotational_model_t iau_rot_model = {
