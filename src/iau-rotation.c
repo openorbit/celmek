@@ -117,10 +117,10 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
 
   alpha += body->a0 + body->aT * T;
   delta += body->d0 + body->dT * T;
-  w += fmod(body->w0 + body->wd * d, 2.0*M_PI);
-  w += fmod(body->wd_2 * d * d, 2.0*M_PI);
-  w += fmod(body->wT_2 * T * T, 2.0*M_PI);
-  w = fmod(w, 2.0*M_PI);
+  w += body->w0 + body->wd * d;
+  w += body->wd_2 * d * d;
+  w += body->wT_2 * T * T;
+
   for (int i = 0 ; i < body->asin_count ; i ++) {
     alpha += body->alpha_sines[i].a * sines[body->alpha_sines[i].sine];
   }
@@ -162,8 +162,8 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
   //}
   orbit->W_prime = w_prime; // TODO: Ensure we add cos and sine terms
 
-  orbit->q = q_rot(0,0,1, M_PI_4 + alpha);
-  orbit->q = q_normalise(q_mul(orbit->q, q_rot(1,0,0, M_PI_4 - delta)));
+  orbit->q = q_rot(0,0,1, M_PI_2 + alpha);
+  orbit->q = q_normalise(q_mul(orbit->q, q_rot(1,0,0, M_PI_2 - delta)));
   orbit->q = q_normalise(q_mul(orbit->q, q_rot(0,0,1, w)));
 }
 
