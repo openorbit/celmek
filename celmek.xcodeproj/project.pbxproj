@@ -59,7 +59,7 @@
 		EC842431163D36E800F8361B /* libcheck.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC842430163D36E800F8361B /* libcheck.a */; };
 		EC84245B163FA46B00F8361B /* de4xx-sim.c in Sources */ = {isa = PBXBuildFile; fileRef = EC84245A163FA46B00F8361B /* de4xx-sim.c */; };
 		ECBF1902164CFD8E00C7E566 /* orbital-elements.c in Sources */ = {isa = PBXBuildFile; fileRef = ECBF1901164CFD8E00C7E566 /* orbital-elements.c */; };
-		ECE73AEF16F7039500A4662C /* libvmath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE73AEE16F7039500A4662C /* libvmath.a */; };
+		ECE73AF516FAF91C00A4662C /* libvmath.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ECE73AEE16F7039500A4662C /* libvmath.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,7 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ECE73AEF16F7039500A4662C /* libvmath.a in Frameworks */,
+				ECE73AF516FAF91C00A4662C /* libvmath.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,10 +640,8 @@
 					"${PROJECT_DIR}/include",
 					"${PROJECT_DIR}/../vmath/include",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../build/xcode/openorbit-dedsvcolgmnwsngknbkhajjvalec/Build/Products/Debug\"",
-				);
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -657,10 +655,8 @@
 					"${PROJECT_DIR}/include",
 					"${PROJECT_DIR}/../vmath/include",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../../../build/xcode/openorbit-dedsvcolgmnwsngknbkhajjvalec/Build/Products/Debug\"",
-				);
+				INSTALL_PATH = "$(BUILT_PRODUCTS_DIR)";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -668,6 +664,10 @@
 		EC697ECF163B189C006B4407 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -675,6 +675,10 @@
 		EC697ED0163B189C006B4407 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -682,6 +686,10 @@
 		EC697EDD163B18D9006B4407 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -689,6 +697,10 @@
 		EC697EDE163B18D9006B4407 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -696,6 +708,10 @@
 		EC697EEB163B1904006B4407 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -703,6 +719,10 @@
 		EC697EEC163B1904006B4407 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -713,6 +733,7 @@
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
 					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -728,6 +749,7 @@
 				HEADER_SEARCH_PATHS = (
 					/opt/local/include,
 					"${PROJECT_DIR}/include",
+					"${PROJECT_DIR}/../vmath/include",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

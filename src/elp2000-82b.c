@@ -412,9 +412,14 @@ void
 elp2000_object_step(cm_orbit_t *obj, cm_world_t *state)
 {
   double3 res = cm_elp2000_82b(state->jde);
-  // Elp returns the results in ecliptic, we convert it to equ here
+
+  // Elp returns the results in ecliptic with the mean equinox of the date,
+  // we convert it to equ J2000 here
   // this is roughly what the ICRF is.
-  double2 res2 = cm_ecl_to_equ(res.x, res.y, CM_J2000_OBL);
+  double2 j2k_ecl = cm_ecl_epoch_conv(res.x, res.y, state->jde, CM_J2000_0);
+
+
+  double2 res2 = cm_ecl_to_equ(j2k_ecl.x, j2k_ecl.y, CM_J2000_OBL_DEG*VMATH_RAD_PER_DEG);
   
   // We should express everything in ICRF this is roughly that
   obj->p = cm_spherical_to_rect(res2.x, res2.y, res.z);

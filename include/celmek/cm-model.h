@@ -52,9 +52,22 @@ typedef struct cm_orbit_t {
 
   double3 p; //!< Position
   double3 v; //!< Velocity
+
   double3 r; //!< Rotational vector
   double W;  //!< Rotation around vector
+  double W_prime; //!< Derivative of W, with respect to t (in days).
+  quaternion_t q; //!< Quaternion to rotate with respect to ICRF
+
+  double mass; //!< Mass in kg
+  double GM; //!< Gravitational parameter in m^3s^{-2}, derived from mass.
+  double radius; //!< Rough radius of the body
 } cm_orbit_t;
+
+typedef struct {
+  size_t alen;
+  size_t len;
+  cm_orbit_t **orbits;
+} cm_orbits_t;
 
 /*!
  * World state computed once and used for all objects being updated.
@@ -77,6 +90,9 @@ typedef void (*cm_orbital_model_transform_t)(cm_orbit_t *, cm_world_t *);
  * Different orbtial models are needed (e.g. VSOP87 and ELP2000 are two
  * different models) but they need a common interface. This structure allows the
  * models to register different step and initialisation functions.
+ *
+ * The provides_velocities field is important as it indicates whether orbital
+ * positions can be interpolated using splines or not.
  */
 struct cm_orbital_model_t {
   const char *name; //!< Name of orbital model (matched to the cm_orbit__t name
@@ -90,6 +106,8 @@ struct cm_orbital_model_t {
                                           //!< may apply additional
                                           //!< transformations)
   void *data; //!< Model specific data
+
+  bool provides_velocities; //!< Model provides velocities of the bodies.
 };
 
 typedef void (*cm_rotational_model_init_t)(cm_rotational_model_t *);
@@ -112,7 +130,10 @@ struct cm_rotational_model_t {
   void *data; //!< Model specific data
 };
 
-
+/*!
+ * Return an array of all orbital objects.
+ */
+const cm_orbits_t* cm_get_orbits(void);
 /*!
  * Run the entire simulation and compute all body positions and rotations for a
  * given Julian day.

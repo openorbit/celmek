@@ -229,7 +229,8 @@ kepler_object_step(cm_orbit_t *orbit, cm_world_t *state)
 static void
 kepler_transform(cm_orbit_t *orbit, cm_world_t *state)
 {
-  
+  if (orbit->parent)
+    orbit->p = orbit->parent->p + orbit->p;
 }
 
 static cm_orbital_model_t kepler_model = {
