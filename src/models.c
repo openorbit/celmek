@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Mattias Holm <lorrden(at)openorbit.org>.
+ * Copyright (c) 2012,2013 Mattias Holm <lorrden(at)openorbit.org>.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -18,9 +18,10 @@
  * MA 02110-1301  USA
  */
 
+#include <assert.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #include <celmek/celmek.h>
 
@@ -259,6 +260,7 @@ cm_init_orbit(cm_orbit_t *orbit)
 
   orbit->omod = om;
   orbit->rmod = rm;
+  orbit->orbit_plane_q = Q_IDENT;
 
   if (om) om->init_object(orbit);
   if (rm) rm->init_object(orbit);
@@ -284,14 +286,15 @@ cm_init_orbits(void)
 double
 cm_julian_centuries(double jde)
 {
-  return (jde - 2451545.0) / 36525.0;  
+  return (jde - CM_J2000_0) / CM_JD_PER_CENT;
 }
 
 void
 cm_orbit_compute(double jde)
 {
+  jde = CM_J2000_0;
   cm_world_t  state = {.jde = jde, .T = cm_julian_centuries(jde),
-                       .d = jde - 2451545.0};
+                       .d = jde - CM_J2000_0};
 
   // First, do the presteps so that models can compute common parameters
   for (int i = 0 ; i < orbital_model_count ; i++) {
@@ -315,11 +318,47 @@ cm_orbit_compute(double jde)
   }
 
   // Last thing to do is to execute the transform functions, this
-  // function can be used to transform positions and rotations
+  // function can be used to transform positions and rotations, this also fills
+  // in the epoch value
   for (int i = 0 ; i < _orbits.len ; i++) {
     cm_orbit_t *o = _orbits.orbits[i];
     if (o->omod && o->omod->transform) o->omod->transform(o, &state);
+    o->epoch = jde;
   }
+}
+
+quaternion_t
+cm_orbit_get_bodyq(cm_orbit_t *orbit)
+{
+  // Quaternion for the body
+  return orbit->q;
+}
+
+quaternion_t
+cm_orbit_get_orbitq(cm_orbit_t *orbit)
+{
+  assert(orbit->parent);
+  // Compute the quaternion of the orbit
+  cm_state_vectors_t sv;
+  sv.p = orbit->p - orbit->parent->p;
+  sv.v = orbit->v - orbit->parent->v;
+  sv.epoch = orbit->epoch;
+  cm_kepler_elements_t ke;
+
+  cm_state_vector_to_orbital_elements(&ke, &sv, orbit->parent->GM + orbit->GM);
+
+  //printf("orbit rotation %s: %f %f %f\n",
+  //       orbit->name,
+  //       ke.long_asc*VMATH_DEG_PER_RAD,
+  //       ke.incl*VMATH_DEG_PER_RAD,
+  //       ke.arg_peri*VMATH_DEG_PER_RAD);
+  quaternion_t q = orbit->orbit_plane_q;
+  q = q_mul(q, q_rot(0, 0, 1, ke.long_asc));
+  q = q_mul(q, q_rot(1, 0, 0, ke.incl));
+  q = q_mul(q, q_rot(0, 0, 1, ke.arg_peri));
+  q = q_normalise(q);
+
+  return q;
 }
 
 static int _initialized;
@@ -328,6 +367,9 @@ cm_init(void)
 {
   if (_initialized) return;
   _initialized = 1;
+
+  cm_mean_orbits_init();
+
   // Orbital models
   vsop87_init();
   elp2000_82b_init();

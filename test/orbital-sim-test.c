@@ -19,11 +19,13 @@
  */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <check.h>
 #include <celmek/celmek.h>
 
 
 #define ALMOST_EQUAL(a, b, p) (a >= b - p && a <= b + p)
+#define REL_EQUAL(a, b, p) ((a != 0.0) ? fabs((a - b)/a) <= p : ((b != 0) ? fabs((a - b)/a) <= p : 1))
 
 struct {
   const char *date_str;
@@ -300,6 +302,69 @@ START_TEST(test_vsop87e)
 }
 END_TEST
 
+START_TEST(test_cm_mean_elements)
+{
+  cm_kepler_elements_t elements;
+  cm_compute_mean_orbital_elements_j2000(&elements, CM_EARTH, CM_J2000_0);
+
+  fail_unless(elements.epoch == CM_J2000_0, "epoch missmatched");
+  fail_unless(REL_EQUAL(elements.ecc, 0.01670862, 0.00001), "eccentricity wrong");
+  fail_unless(REL_EQUAL(elements.semi_major, 1.0, 0.00001), "semimajor axis wrong");
+  fail_unless(REL_EQUAL(elements.long_asc, 174.873174 * VMATH_RAD_PER_DEG, 0.00001),
+              "lonitude of ascending node wrong");
+  fail_unless(REL_EQUAL(elements.incl, 0, 0.00001),
+              "inclination wrong (%f != %f)", elements.incl, 0.0);
+
+  // TOOD: Test rest of the elements
+}
+END_TEST
+
+START_TEST(test_cm_state_vector_to_orbital_elements)
+{
+  // This test works by using the cm_compute_mean_orbital_elements_j2000
+  // function to compute the expected value for the epoch J2000 for the orbital
+  // elements of Mercury. Then it computes the rectangular coordinates
+  // (adjusting for not being heliocentric) using vsop87.
+  // The translated state vector is then fed into
+  // cm_state_vector_to_orbital_elements which should return roughly the same
+  // value as the cm_compute_mean_orbital_elements_j2000 does.
+  cm_kepler_elements_t oe;
+
+  cm_kepler_elements_t oe_expect;
+  // Reference body, we use mercury as it has a large eccentricity.
+  cm_compute_mean_orbital_elements_j2000(&oe_expect, CM_MERCURY, CM_J2000_0);
+  //oe_expect.semi_major *= CM_AU_IN_M;
+
+  cm_state_vectors_t svsun = cm_vsop87(CM_SUN, CM_J2000_0);
+  cm_state_vectors_t sve = cm_vsop87(CM_MERCURY, CM_J2000_0);
+  sve.p = sve.p - svsun.p;
+  sve.v = sve.v - svsun.v;
+
+  cm_state_vector_to_orbital_elements(&oe, &sve,
+                                      (CM_SUN_MASS+CM_MERCURY_MASS) * CM_G__AU_KG_D);
+
+  fail_unless(REL_EQUAL(oe.semi_major, oe_expect.semi_major, 0.001),
+              "a: got: %f, expected: %f", oe.semi_major, oe_expect.semi_major);
+  fail_unless(REL_EQUAL(oe.ecc, oe_expect.ecc, 0.001),
+              "e: got: %f, expected: %f", oe.ecc, oe_expect.ecc);
+  fail_unless(REL_EQUAL(oe.incl, oe_expect.incl, 0.001),
+              "i: got: %f, expected: %f", oe.incl, oe_expect.incl);
+  fail_unless(REL_EQUAL(oe.long_asc, oe_expect.long_asc, 0.001),
+              "long_asc: got: %f, expected: %f", oe.long_asc, oe_expect.long_asc);
+  fail_unless(REL_EQUAL(oe.arg_peri, oe_expect.arg_peri, 0.001),
+              "w: got: %f, expected: %f", oe.arg_peri, oe_expect.arg_peri);
+  fail_unless(REL_EQUAL(oe.mean_motion, oe_expect.mean_motion, 0.001),
+              "n: got: %f, expected: %f", oe.mean_motion, oe_expect.mean_motion);
+  fail_unless(REL_EQUAL(oe.mean_anomaly_at_epoch,
+                           oe_expect.mean_anomaly_at_epoch, 0.001),
+              "M: got: %f, expected: %f", oe.mean_anomaly_at_epoch,
+              oe_expect.mean_anomaly_at_epoch);
+  fail_unless(REL_EQUAL(oe.epoch, oe_expect.epoch, 0.001),
+              "epoch: got: %f, expected: %f", oe.epoch, oe_expect.epoch);
+
+}
+END_TEST
+
 int main (int argc, char const *argv[])
 {
   Suite *s = suite_create("orbital-sim");
@@ -311,11 +376,15 @@ int main (int argc, char const *argv[])
   tcase_add_test(modelquery, test_get_orbital_model);
   suite_add_tcase(s, modelquery);
 
+  TCase *meanorbits = tcase_create("mean-orbits");
+  tcase_add_test(meanorbits, test_cm_mean_elements);
+  suite_add_tcase(s, meanorbits);
 
   TCase *celcoord = tcase_create("celestial-coordinates");
   tcase_add_test(celcoord, test_cm_equ_epoch_conv);
   tcase_add_test(celcoord, test_cm_equ_to_ecl);
   tcase_add_test(celcoord, test_cm_ecl_to_equ);
+  tcase_add_test(celcoord, test_cm_state_vector_to_orbital_elements);
   suite_add_tcase(s, celcoord);
 
   TCase *elp = tcase_create("elp2000-82b");
@@ -338,6 +407,7 @@ int main (int argc, char const *argv[])
   tcase_add_test(date_tests, test_tcb_to_tdb);
   tcase_add_test(date_tests, test_tdb_to_tcb);
   suite_add_tcase(s, date_tests);
+
 
   SRunner *sr = srunner_create(s);
   srunner_run_all(sr, CK_NORMAL);

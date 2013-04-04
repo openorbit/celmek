@@ -23,15 +23,16 @@
 #include <stdbool.h>
 
 void
-cm_orbital_elements_init(cm_orbital_elements_t *oe)
+cm_orbital_elements_init(cm_kepler_elements_t *oe)
 {
-  oe->a = NAN;
-  oe->e = NAN;
-  oe->i = NAN;
-  oe->Omega = NAN;
-  oe->w = NAN;
-  oe->t_w = NAN;
-  oe->T = NAN;
+  oe->semi_major = NAN;
+  oe->ecc = NAN;
+  oe->incl = NAN;
+  oe->long_asc = NAN;
+  oe->arg_peri = NAN;
+  oe->mean_anomaly_at_epoch = NAN;
+  oe->epoch = NAN;
+  oe->mean_motion = NAN;
 }
 
 double
@@ -130,15 +131,16 @@ cm_orbital_elements_set_orbital_period(cm_orbital_elements_t *oe, double T)
 
 
 bool
-cm_orbital_elements_check(const cm_orbital_elements_t *oe)
+cm_orbital_elements_check(const cm_kepler_elements_t *oe)
 {
-  if (isnan(oe->a)) return false;
-  if (isnan(oe->e)) return false;
-  if (isnan(oe->i)) return false;
-  if (isnan(oe->Omega)) return false;
-  if (isnan(oe->w)) return false;
-  if (isnan(oe->t_w)) return false;
-  if (isnan(oe->T)) return false;
+  if (isnan(oe->semi_major)) return false;
+  if (isnan(oe->ecc)) return false;
+  if (isnan(oe->incl)) return false;
+  if (isnan(oe->long_asc)) return false;
+  if (isnan(oe->arg_peri)) return false;
+  if (isnan(oe->mean_anomaly_at_epoch)) return false;
+  if (isnan(oe->mean_motion)) return false;
+  if (isnan(oe->epoch)) return false;
 
   return true;
 }
