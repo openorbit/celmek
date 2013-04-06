@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Mattias Holm <lorrden(at)openorbit.org>.
+ * Copyright (c) 2012,2013 Mattias Holm <lorrden(at)openorbit.org>.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -188,6 +188,8 @@ vsop87_pos_at_jd(vsop87_body_t *body, double jd) {
   res.v.x /= 365250.0;
   res.v.y /= 365250.0;
   res.v.z /= 365250.0;
+
+  res.epoch = jd;
   return res;
 }
 
@@ -244,6 +246,9 @@ vsop87_init_object(cm_orbit_t *obj)
   if (b_id == -1) return; // TODO: generate error
   
   obj->omod_data = bodies[b_id];
+
+  // Note, the plane of the orbit is the ICRF for our case
+  obj->orbit_plane_q = Q_IDENT;
 }
 
 static cm_orbital_model_t vsop87_model = {

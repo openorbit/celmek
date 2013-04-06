@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Mattias Holm <lorrden(at)openorbit.org>.
+ * Copyright (c) 2012,2013 Mattias Holm <lorrden(at)openorbit.org>.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -188,85 +188,201 @@ cm_vector_rotmatrix(double3x3 R, const double3 v0, const double3 v1)
 
 // For laplace planes:
 //   ra and dec known for plane (this is the north pole of the plane)
-//   this plane is in equatorial coordinates
+//   this plane is in ICRF (equatorial) coordinates
 //   create a vector to the plane pole
-// We get rectangular coords for the laplace plane, this is not an equ plane
-// we need to first transform the laplace plane to equ
+// We get rectangular coords for the laplace plane, this is not an ICRF plane
+// we need to first transform the laplace plane to ICRF
 void
 cm_laplace_frame_rotate(double3x3 R, double ra, double decl)
 {
   double3 equ_v = {0.0, 0.0, 1.0};
+
+  // The ICRF vector of the north pole of the plane
   double3 lf = cm_spherical_to_rect(ra, decl, 1.0);
+
   // Create rot matrix for the translation between the ra decl to eq coords
-  // AHRG! This is confusing, is this pointing in the right direction or
-  // should we do equ_v to lf?
-  cm_vector_rotmatrix(R, lf, equ_v);
+  // our planes normal up vector is +z, so we want to rotate this towards ra,decl
+  cm_vector_rotmatrix(R, equ_v, lf);
 }
 
 
 // TODO: Move elsewhere
 // See http://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
 void
-cm_state_vector_to_orbital_elements(cm_orbital_elements_t *oe,
-                                    const cm_state_vectors_t *sv)
+cm_state_vector_to_orbital_elements(cm_kepler_elements_t *oe,
+                                    const cm_state_vectors_t *sv,
+                                    double GM)
 {
-  double r2 = vd3_dot(sv->p, sv->p);
-  double v2 = vd3_dot(sv->v, sv->v);
-  double r = sqrt(r2);
+  
+  //double r2 = vd3_dot(sv->p, sv->p);
+  //double v2 = vd3_dot(sv->v, sv->v);
+  //double r = sqrt(r2);
   //double v = sqrt(v2);
-  double GM = CM_MU;
-  double3 h = vd3_cross(sv->p, sv->p);
+  double3 h = vd3_cross(sv->p, sv->v); // Orbital momentum vector 1a
 
+  double p_abs = vd3_abs(sv->p);
   double3 e = vd3_cross(sv->v, h);
-  e.x /= GM;
-  e.y /= GM;
-  e.z /= GM;
-  double3 rn = {-sv->p.x/r, -sv->p.y/r, -sv->p.z/r};
-  e = vd3_add(e, rn);
-  double3 n = {-h.y, h.z, 0};
+  e = vd3_s_div(e, GM);
+  double3 rn = vd3_s_div(sv->p, p_abs);
+  e = vd3_sub(e, rn); // Eccentricity vector 1b
 
-  double inc = acos(h.z/sqrt(vd3_dot(h, h)));
+  double e_abs = vd3_abs(e); // Eccentricity 3
+
+  double3 n = vd3_set(-h.y, h.x, 0); // n pointing towards ascending node
+                                     // then true anomaly ta 1c.
+  double n_abs = vd3_abs(n);
+
   double ta;
   if (vd3_dot(sv->p, sv->v) >= 0.0) {
-    ta = acos(vd3_dot(e, sv->p)/sqrt(vd3_dot(e, e))*r);
+    ta = acos(vd3_dot(e, sv->p)/(e_abs*p_abs));
   } else {
-    ta = 2.0 * M_PI - acos(vd3_dot(e, sv->p)/sqrt(vd3_dot(e, e))*r);
+    ta = 2.0 * M_PI - acos(vd3_dot(e, sv->p)/(e_abs*p_abs));
   }
-  // Semi-major axis
-  double a = 1.0 / (2.0/r + v2/GM);
-  // Eccentricity vector
-  double3 E;
-  E.x = v2 * sv->p.x / CM_MU - vd3_dot(sv->p, sv->v) * sv->v.x / CM_MU
-      - sv->p.x / r;
-  E.y = v2 * sv->p.y / CM_MU - vd3_dot(sv->p, sv->v) * sv->v.y / CM_MU
-      - sv->p.y / r;
-  E.z = v2 * sv->p.z / CM_MU - vd3_dot(sv->p, sv->v) * sv->v.z / CM_MU
-      - sv->p.z / r;
 
-  double ecc = sqrt(vd3_dot(E, E)); //Eccentricity
-  double ecc_an = 2.0 * atan(tan(ta/2.0)/sqrt((1.0 + ecc)/(1.0-ecc)));
 
+  // Calculate inclination (http://en.wikipedia.org/wiki/Orbital_inclination)
+  double inc = acos(h.z/vd3_abs(h));
+
+  // Caluclate eccentricity scalar and the eccentric anomaly 3
+  double E = 2.0 * atan2(tan(ta/2.0), sqrt((1.0+e_abs)/(1.0-e_abs)));
+
+  // Longitude of ascending node 4
   double long_asc;
-  double arg_peri;
   if (n.y >= 0.0) {
-    long_asc = acos(n.z/sqrt(vd3_dot(n, n)));
+    long_asc = acos(n.x/n_abs);
   } else {
-    long_asc = 2*M_PI - acos(n.z/sqrt(vd3_dot(n, n)));
+    long_asc = 2.0*M_PI - acos(n.x/n_abs);
   }
 
+  // Argument of periapsis 4
+  double arg_peri;
   if (e.z >= 0.0) {
-    arg_peri = acos(vd3_dot(n, e)/sqrt(vd3_dot(n, n))*sqrt(vd3_dot(e, e)));
+    arg_peri = acos(vd3_dot(n, e)/(n_abs*e_abs));
   } else {
-    arg_peri = 2.0*M_PI - acos(vd3_dot(n, e)/sqrt(vd3_dot(n, n))*sqrt(vd3_dot(e, e)));
+    arg_peri = 2.0*M_PI - acos(vd3_dot(n, e)/(n_abs*e_abs));
   }
 
-  double M = ecc_an - ecc * sin(ecc_an);
+  // Mean anomaly 5
+  double M = E - e_abs * sin(E);
+  //if (M < 0.0) M += 2.0*M_PI;
+
+  // Semi-major axis 6
+  double v_abs = vd3_abs(sv->v);
+  double a = 1.0/((2.0/p_abs)-((v_abs*v_abs)/GM));
 
   // TODO: Fix this
-  oe->a = a;
-  oe->e = ecc;
-  oe->i = inc;
+  oe->semi_major = a;
+  oe->ecc = e_abs;
+  oe->incl = inc;
   //oe->L = M;
-  oe->Omega = long_asc;
-  oe->w = arg_peri;
+  oe->long_asc = long_asc;
+  oe->arg_peri = arg_peri;
+
+  oe->mean_motion = sqrt(GM / (a * a * a));
+
+  // Mean anomaly is related to time of periapsis as t_w = jde - (M / 2 pi) / T
+  oe->mean_anomaly_at_epoch = M;
+  //oe->t_w = sv->jde - M / (2.0*M_PI) / ((2.0*M_PI)/oe->mean_motion);
+  //oe->M = M;
+  oe->epoch = sv->epoch;
 }
+
+// Meeus p135
+double
+cm_obliquity_of_ecl(double jde)
+{
+  static const double obl[10] = {-4680.93,
+                                    -1.55,
+                                  1999.25,
+                                   -51.38,
+                                  -249.67,
+                                   -39.05,
+                                     7.12,
+                                    27.87,
+                                     5.79,
+                                     2.45};
+  double res = 23.0*3600.0+26.0*60.0+21.448;
+
+  double T = (jde - CM_J2000_0)/CM_JD_PER_CENT;
+  double u = T/100.0;
+
+  for (int i = 0 ; i < 10 ; i ++) {
+    res += u * obl[i];
+    u *= u;
+  }
+
+  // Above result is in seconds of arc, convert to degrees and then radians.
+  res /= 3600.0;
+  res *= VMATH_RAD_PER_DEG;
+
+  return res;
+}
+
+
+// Functions to set kepler elements using four different parametrisations
+void
+cm_kepler_elements_set_major_planet(cm_kepler_elements_t *elems,
+                                    double e, double a, double i, double omega,
+                                    double long_peri,
+                                    double mean_longitude_at_epoch,
+                                    double period, double epoch)
+{
+  elems->ecc = e;
+  elems->semi_major = a;
+  elems->incl = i;
+  elems->long_asc = omega;
+  elems->arg_peri = long_peri - omega;
+  elems->mean_anomaly_at_epoch = mean_longitude_at_epoch - long_peri;
+  elems->mean_motion = 2.0 * M_PI / period;
+  elems->epoch = epoch;
+}
+
+void
+cm_kepler_elements_set_comet(cm_kepler_elements_t *elems,
+                             double e, double q, double i, double omega,
+                             double arg_peri, double time_peri,
+                             double period)
+{
+  elems->ecc = e;
+  elems->semi_major = q/(1.0-e);
+  elems->incl = i;
+  elems->long_asc = omega;
+  elems->arg_peri = arg_peri;
+  elems->mean_anomaly_at_epoch = 0.0;
+  elems->epoch = time_peri;
+  elems->mean_motion = 2.0 * M_PI / period;
+}
+
+void
+cm_kepler_elements_set_asteroid(cm_kepler_elements_t *elems,
+                                double e, double a, double i, double omega,
+                                double arg_peri, double mean_anomaly_at_epoch,
+                                double period, double epoch)
+{
+  elems->ecc = e;
+  elems->semi_major = a;
+  elems->incl = i;
+  elems->long_asc = omega;
+  elems->arg_peri = arg_peri;
+  elems->mean_anomaly_at_epoch = mean_anomaly_at_epoch;
+  elems->mean_motion = 2.0 * M_PI / period;
+  elems->epoch = epoch;
+}
+
+void
+cm_kepler_elements_set_tle(cm_kepler_elements_t *elems,
+                           double e, double i, double omega,
+                           double arg_peri, double mean_motion_rad_per_day,
+                           double mean_anomaly_at_epoch,
+                           double epoch)
+{
+  elems->ecc = e;
+  elems->semi_major = cbrt((1.0/mean_motion_rad_per_day) * (1.0/mean_motion_rad_per_day) * CM_G__M_KG_D * CM_EARTH_MASS);
+  elems->incl = i;
+  elems->long_asc = omega;
+  elems->arg_peri = arg_peri;
+  elems->mean_anomaly_at_epoch = mean_anomaly_at_epoch;
+  elems->mean_motion = mean_motion_rad_per_day;
+  elems->epoch = epoch;
+}
+

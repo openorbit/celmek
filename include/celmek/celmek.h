@@ -72,6 +72,7 @@
 
 #define CM_LIGHT_TIME_PER_AU 499.004783836 //s
 
+// m3 s-2
 #define CM_SUN_GM_TCB   1.32712442099e20
 #define CM_SUN_GM_TDB   1.32712440041e20
 
@@ -80,7 +81,7 @@
 #define CM_EARTH_GM_TT    3.986004415e14
 
 // Common mass constants in kg
-#define CM_SUN_MASS
+#define CM_SUN_MASS     1.98855e30
 #define CM_MERCURY_MASS 3.2010e23
 #define CM_VENUS_MASS   4.1380e24
 #define CM_EARTH_MASS   5.9722e24
@@ -104,14 +105,66 @@
  * Storage type for state vectors.
  */
 typedef struct {
-  double3 p;
-  double3 v;
+  double3 p;      //!< Position
+  double3 v;      //!< Velocity
+  double epoch;   //!< Epoch in JDE
 } cm_state_vectors_t;
 
 /*!
  * Stores osculating elements, we use time of periapsis instead of mean motion
  * since this makes more sense for hyperbolic trajectories.
  */
+// e, a, i, long asc, arg peri, mean anomaly
+//
+
+//  Major Planet	e,a, i, Ω, ϖ, L0
+//  Comet               e, q,i,Ω, ω,T0
+//  Asteroid            e,a,i,Ω, ω, M0
+//  TLE                 e,i,Ω,ω, n,M0
+//
+
+typedef struct {
+  double ecc; //!< eccentricity (unitless)
+  double semi_major; //!< metres
+  double incl; //!< rad
+  double long_asc; //!< rad
+  double arg_peri; //!< rad
+  double mean_anomaly_at_epoch; //!< Converts to true anomaly in rad
+  double epoch;       //!< Epoch in JDE
+  double mean_motion; //!< rad / day
+} cm_kepler_elements_t;
+
+// Functions to set kepler elements using four different parametrisations
+void
+cm_kepler_elements_set_major_planet(cm_kepler_elements_t *elems,
+                                    double e, double a, double i, double omega,
+                                    double long_peri,
+                                    double mean_longitude_at_epoch,
+                                    double period, double epoch);
+void
+cm_kepler_elements_set_comet(cm_kepler_elements_t *elems,
+                             double e, double q, double i, double omega,
+                             double arg_peri, double time_peri,
+                             double period);
+void
+cm_kepler_elements_set_asteroid(cm_kepler_elements_t *elems,
+                                double e, double a, double i, double omega,
+                                double arg_peri, double mean_anomaly_at_epoch,
+                                double period, double epoch);
+/*!
+ * Converts TLE formatted data to the standard keplerian elements.
+ *
+ * \param mean_motion_rad_per_day The mean motion in rad/day. This differ
+ *        from the normal TLE elements which are given in revolutions per day. 
+ */
+void
+cm_kepler_elements_set_tle(cm_kepler_elements_t *elems,
+                           double e, double i, double omega,
+                           double arg_peri, double mean_motion_rad_per_day,
+                           double mean_anomaly_at_epoch,
+                           double epoch);
+
+
 typedef struct {
   double a;      //!< Semimajor axis
   double e;      //!< Eccentricity
@@ -119,7 +172,9 @@ typedef struct {
   double Omega;  //!< Long Ascending node
   double w;      //!< Arg periapsis
   double t_w;    //!< Time of periapsis
+  double M;      //!< Mean anomaly at epoch
   double T;      //!< Period
+  double jde;    //!< Epoch of elements
 } cm_orbital_elements_t;
 
 #include <celmek/cm-time.h>

@@ -103,12 +103,14 @@ typedef enum {
 } cm_body_id_t;
 
 
+cm_body_id_t cm_body_id_from_name(const char *name);
+
 /*!
  * Initialise all fields in the orbital elements object to NaN.
  *
  * \param[out] oe Orbital elements object to initialise.
  */
-void cm_orbital_elements_init(cm_orbital_elements_t *oe);
+void cm_orbital_elements_init(cm_kepler_elements_t *oe);
 
 /*!
  * Compute semiminor axis from semimajor axis and eccentricity.
@@ -190,7 +192,7 @@ double cm_arg_periapsis(double long_peri, double long_asc);
  *   - true: if the object is consistent.
  *   - false: if the object is NOT consistent.
  */
-bool cm_orbital_elements_check(const cm_orbital_elements_t *oe);
+bool cm_orbital_elements_check(const cm_kepler_elements_t *oe);
 
 /*!
  * Compute mean orbital elements at date.
@@ -202,7 +204,7 @@ bool cm_orbital_elements_check(const cm_orbital_elements_t *oe);
  * \param planet Planet id, the valid values are all major planets.
  * \param T Julian day.
  */
-void cm_mean_orbital_elements_at_date(cm_orbital_elements_t *elems,
+void cm_mean_orbital_elements_at_date(cm_kepler_elements_t *elems,
                                       cm_body_id_t planet, double T);
 
 /*!
@@ -285,8 +287,9 @@ double cm_long_of_peri_at_date(cm_body_id_t planet, double T);
  * \param planet The planetary body id. Valid value is all major planets.
  * \param T Time as julian day (JDE).
  */
-void cm_mean_orbital_elements_j2000(cm_orbital_elements_t *elems,
-                                    cm_body_id_t planet, double T);
+void
+cm_compute_mean_orbital_elements_j2000(cm_kepler_elements_t *elems,
+                                       cm_body_id_t planet, double T);
 
 /*!
  * Computes the mean longitude of a planet with respect to J2000.
@@ -349,9 +352,12 @@ double cm_long_of_peri_j2000(cm_body_id_t planet, double T);
  *
  * \param[out] oe The orbital elements.
  * \param[in] sv The state vectors to convert to orbital elements.
+ * \param GM Gravitational parameter of central body.
  */
-void cm_state_vector_to_orbital_elements(cm_orbital_elements_t *oe,
-                                         const cm_state_vectors_t *sv);
+void cm_state_vector_to_orbital_elements(cm_kepler_elements_t *oe,
+                                         const cm_state_vectors_t *sv,
+                                         double GM);
 
+void cm_mean_orbits_init(void);
 
 #endif

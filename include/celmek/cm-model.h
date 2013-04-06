@@ -50,6 +50,8 @@ typedef struct cm_orbit_t {
   double oparams[CM_PARAM_COUNT]; //!< Parameters to orbital model
   double rparams[CM_PARAM_COUNT]; //!< Parameters to rotational model
 
+  double epoch; // Epoch for last data
+  // Computed state
   double3 p; //!< Position
   double3 v; //!< Velocity
 
@@ -57,6 +59,11 @@ typedef struct cm_orbit_t {
   double W;  //!< Rotation around vector
   double W_prime; //!< Derivative of W, with respect to t (in days).
   quaternion_t q; //!< Quaternion to rotate with respect to ICRF
+
+  quaternion_t orbit_plane_q; //!< Quaternion of the orbits orbital plane
+                              //!< this is how to translate the orbit to ICRF. 
+
+  cm_orbital_elements_t elements;
 
   double mass; //!< Mass in kg
   double GM; //!< Gravitational parameter in m^3s^{-2}, derived from mass.
@@ -265,6 +272,21 @@ double3 cm_elp2000_82b(double jde);
  */
 double3 cm_kepler(cm_orbital_elements_t *orb, double jde);
 
+
+/*!
+ * Compute the body quaternion (i.e. the quaternion describing how the body
+ * is rotated with respect to the ICRF frame).
+ */
+quaternion_t cm_orbit_get_bodyq(cm_orbit_t *orbit);
+
+/*!
+ * Compute the orbit quaternion (i.e. the quaternion describing how the orbit of
+ * the body is rotated with respect to the ICRF frame).
+ */
+quaternion_t cm_orbit_get_orbitq(cm_orbit_t *orbit);
+
+double cm_orbit_get_orbit_xscale(cm_orbit_t *orbit);
+double cm_orbit_get_orbit_yscale(cm_orbit_t *orbit);
 
 
 #endif
