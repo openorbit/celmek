@@ -292,7 +292,6 @@ cm_julian_centuries(double jde)
 void
 cm_orbit_compute(double jde)
 {
-  jde = CM_J2000_0;
   cm_world_t  state = {.jde = jde, .T = cm_julian_centuries(jde),
                        .d = jde - CM_J2000_0};
 
