@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Mattias Holm <lorrden(at)openorbit.org>.
+ * Copyright (c) 2012,2013 Mattias Holm <lorrden(at)openorbit.org>.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,6 +19,8 @@
  */
 
 #include <celmek/celmek.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct {
   double L[4];
@@ -117,7 +119,7 @@ static cm_planet_t mercury_j2000 = {
 };
 
 static cm_planet_t venus_j2000 = {
-  .L     = {181.979801,    58517.8156760, 0.00000165, -0.000000002},    
+  .L     = {181.979801,    58517.8156760, 0.00000165, -0.000000002},
   .a     = {  0.723329820},
   .e     = {  0.00677188,  -0.000047766, 0.0000000975, 0.00000000044},
   .i     = {  3.394662,    -0.0008568, -0.00003244, 0.000000010},
@@ -182,19 +184,21 @@ static cm_planet_t neptune_j2000 = {
 
 
 static cm_planet_t *epoch[] = {
-  &mercury, &venus, &earth, &mars, &jupiter, &saturn, &uranus, &neptune
+  NULL, &mercury, &venus, &earth, &mars, &jupiter, &saturn, &uranus, &neptune
 };
 
 static cm_planet_t *j2000[] = {
-  &mercury_j2000, &venus_j2000, &earth_j2000, &mars_j2000,
+  NULL, &mercury_j2000, &venus_j2000, &earth_j2000, &mars_j2000,
   &jupiter_j2000, &saturn_j2000, &uranus_j2000, &neptune_j2000
 };
 
 // TODO: Fix GM units
 static double gm[] = {
-  CM_GM_MERCURY_KM, CM_GM_VENUS_KM, CM_GM_EARTH_KM, CM_GM_MARS_KM,
-  CM_GM_JUPITER_KM, CM_GM_SATURN_KM, CM_GM_URANUS_KM, CM_GM_NEPTUNE_KM
-};
+  NAN,
+  CM_G__AU_KG_D * CM_MERCURY_MASS, CM_G__AU_KG_D * CM_VENUS_MASS,
+  CM_G__AU_KG_D * CM_EARTH_MASS, CM_G__AU_KG_D * CM_MARS_MASS,
+  CM_G__AU_KG_D * CM_JUPITER_MASS, CM_G__AU_KG_D * CM_SATURN_MASS,
+  CM_G__AU_KG_D * CM_URANUS_MASS, CM_G__AU_KG_D * CM_NEPTUNE_MASS};
 
 // TODO: Vectorise
 void
@@ -322,23 +326,111 @@ cm_long_of_peri_j2000(cm_body_id_t planet, double T)
 }
 
 void
-cm_compute_mean_orbital_elements_j2000(cm_orbital_elements_t *elems,
-                                       cm_body_id_t planet, double T)
+cm_compute_mean_orbital_elements_j2000(cm_kepler_elements_t *elems,
+                                       cm_body_id_t planet, double jde)
 {
+  double T = (jde - CM_J2000_0) / CM_JD_PER_CENT;
   double L = cm_mean_long_j2000(planet, T);
-  elems->a = cm_semimajor_j2000(planet, T);
-  elems->e = cm_eccentricity_j2000(planet, T);
-  elems->i = cm_incl_to_ecl_j2000(planet, T);
-  elems->Omega = cm_long_of_asc_node_j2000(planet, T);
+  elems->semi_major = cm_semimajor_j2000(planet, T);
+  elems->ecc = cm_eccentricity_j2000(planet, T);
+  elems->incl = cm_incl_to_ecl_j2000(planet, T) /*- CM_J2000_OBL_DEG * VMATH_RAD_PER_DEG;*/;
+  elems->long_asc = cm_long_of_asc_node_j2000(planet, T);
 
   double Lp = cm_long_of_peri_j2000(planet, T);
-  elems->w = cm_arg_periapsis(Lp, elems->Omega);
+  elems->arg_peri = cm_arg_periapsis(Lp, elems->long_asc);
 
   double M = L - Lp;
 
-  double period = cm_period(elems->a, CM_GM_SUN, gm[planet]);
-  double n = cm_mean_motion(period);
-  double Tsp = cm_time_since_periapsis(M, n);
+  double period = cm_period(elems->semi_major, CM_G__AU_KG_D * CM_SUN_MASS, gm[planet]);
 
-  elems->t_w = T - Tsp;
+  double n = cm_mean_motion(period);
+
+  elems->mean_anomaly_at_epoch = M;//T - Tsp;
+  elems->mean_motion = n;
+  elems->epoch = jde;
 }
+
+void
+cm_mean_orbits_init(void)
+{
+  for (int i = CM_MERCURY ; i <= CM_NEPTUNE ; i ++) {
+    for (int j = 0 ; j < 4 ; j ++) {
+      epoch[i]->i[j] = epoch[i]->i[j] * VMATH_RAD_PER_DEG;
+      epoch[i]->L[j] = epoch[i]->L[j] * VMATH_RAD_PER_DEG;
+      epoch[i]->omega[j] = epoch[i]->omega[j] * VMATH_RAD_PER_DEG;
+      epoch[i]->pi[j] = epoch[i]->pi[j] * VMATH_RAD_PER_DEG;
+
+      j2000[i]->i[j] = j2000[i]->i[j] * VMATH_RAD_PER_DEG;
+      j2000[i]->L[j] = j2000[i]->L[j] * VMATH_RAD_PER_DEG;
+      j2000[i]->omega[j] = j2000[i]->omega[j] * VMATH_RAD_PER_DEG;
+      j2000[i]->pi[j] = j2000[i]->pi[j] * VMATH_RAD_PER_DEG;
+    }
+  }
+}
+
+// Sorted array mapping to bodyid
+typedef struct {
+  const char *name;
+  cm_body_id_t body_id;
+} name_body_id_t;
+
+name_body_id_t namebody_array[] = {
+  {"ariel", CM_ARIEL},
+  {"callisto", CM_CALLISTO},
+  {"ceres", CM_CERES},
+  {"charon", CM_CHARON},
+  {"deimos", CM_DEIMOS},
+  {"dione", CM_DIONE},
+  {"earth", CM_EARTH},
+  {"enceladus", CM_ENCELADUS},
+  {"eris", CM_ERIS},
+  {"europa", CM_EUROPA},
+  {"ganymede", CM_GANYMEDE},
+  {"hyperion", CM_HYPERION},
+  {"iapetus", CM_IAPETUS},
+  {"io", CM_IO},
+  {"janus", CM_JANUS},
+  {"jupiter", CM_JUPITER},
+  {"mars", CM_MARS},
+  {"mercury", CM_MERCURY},
+  {"miranda", CM_MIRANDA},
+  {"moon", CM_MOON},
+  {"neptune", CM_NEPTUNE},
+  {"nereid", CM_NEREID},
+  {"oberon", CM_OBERON},
+  {"phobos", CM_PHOBOS},
+  {"phoebe", CM_PHOEBE},
+  {"pluto", CM_PLUTO},
+  {"rhea", CM_RHEA},
+  {"saturn", CM_SATURN},
+  {"sun", CM_SUN},
+  {"tethys", CM_TETHYS},
+  {"titan", CM_TITAN},
+  {"titania", CM_TITANIA},
+  {"triton", CM_TRITON},
+  {"umbriel", CM_UMBRIEL},
+  {"uranus", CM_URANUS},
+  {"venus", CM_VENUS},
+};
+
+static int
+body_compare(const void *a, const void *b)
+{
+  const name_body_id_t *key = a;
+  const name_body_id_t *memb = b;
+
+  return strcmp(key->name, memb->name);
+}
+cm_body_id_t
+cm_body_id_from_name(const char *name)
+{
+  name_body_id_t key = {name, 0};
+  name_body_id_t *res = bsearch(&key, namebody_array,
+                                sizeof(namebody_array)/sizeof(namebody_array[0]),
+                                sizeof(namebody_array[0]),
+                                body_compare);
+
+  if (res) return res->body_id;
+  return -1;
+}
+
