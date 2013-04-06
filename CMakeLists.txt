@@ -25,8 +25,10 @@ set(CELMEK_HDR "include/celmek/celmek.h"
 # in order to let tools and code build with '<>' includes.
 include_directories(BEFORE "src")
 include_directories(BEFORE SYSTEM "include")
+include_directories(BEFORE SYSTEM "../vmath/include")
 
 add_library(celmek STATIC ${CELMEK_SRC})
+target_link_libraries(celmek vmath)
 
 add_executable(deconvert "tools/de4xx-convert.c")
 target_link_libraries(deconvert celmek)
@@ -66,6 +68,8 @@ if (DOXYGEN_FOUND)
   configure_file( "${CMAKE_SOURCE_DIR}/Doxyfile.in"
     "${DOXYGEN_CONFIG}"
     @ONLY)
-  add_custom_target(docs ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIG}
-    WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+  if (NOT TARGET docs)
+    add_custom_target(docs ${DOXYGEN_EXECUTABLE} ${DOXYGEN_CONFIG}
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+  endif (NOT TARGET docs)
 endif (DOXYGEN_FOUND)
