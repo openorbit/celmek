@@ -248,7 +248,7 @@ vsop87_init_object(cm_orbit_t *obj)
   obj->omod_data = bodies[b_id];
 
   // Note, the plane of the orbit is the ICRF for our case
-  obj->orbit_plane_q = Q_IDENT;
+  obj->orbit_plane_q = QD_IDENT;
 }
 
 static cm_orbital_model_t vsop87_model = {

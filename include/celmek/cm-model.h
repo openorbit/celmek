@@ -58,9 +58,9 @@ typedef struct cm_orbit_t {
   double3 r; //!< Rotational vector
   double W;  //!< Rotation around vector
   double W_prime; //!< Derivative of W, with respect to t (in days).
-  quaternion_t q; //!< Quaternion to rotate with respect to ICRF
+  quatd_t q; //!< Quaternion to rotate with respect to ICRF
 
-  quaternion_t orbit_plane_q; //!< Quaternion of the orbits orbital plane
+  quatd_t orbit_plane_q; //!< Quaternion of the orbits orbital plane
                               //!< this is how to translate the orbit to ICRF. 
 
   cm_orbital_elements_t elements;
@@ -277,13 +277,13 @@ double3 cm_kepler(cm_orbital_elements_t *orb, double jde);
  * Compute the body quaternion (i.e. the quaternion describing how the body
  * is rotated with respect to the ICRF frame).
  */
-quaternion_t cm_orbit_get_bodyq(cm_orbit_t *orbit);
+quatd_t cm_orbit_get_bodyq(cm_orbit_t *orbit);
 
 /*!
  * Compute the orbit quaternion (i.e. the quaternion describing how the orbit of
  * the body is rotated with respect to the ICRF frame).
  */
-quaternion_t cm_orbit_get_orbitq(cm_orbit_t *orbit);
+quatd_t cm_orbit_get_orbitq(cm_orbit_t *orbit);
 
 double cm_orbit_get_orbit_xscale(cm_orbit_t *orbit);
 double cm_orbit_get_orbit_yscale(cm_orbit_t *orbit);
