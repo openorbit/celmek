@@ -260,7 +260,7 @@ cm_init_orbit(cm_orbit_t *orbit)
 
   orbit->omod = om;
   orbit->rmod = rm;
-  orbit->orbit_plane_q = Q_IDENT;
+  orbit->orbit_plane_q = QD_IDENT;
 
   if (om) om->init_object(orbit);
   if (rm) rm->init_object(orbit);
@@ -326,14 +326,14 @@ cm_orbit_compute(double jde)
   }
 }
 
-quaternion_t
+quatd_t
 cm_orbit_get_bodyq(cm_orbit_t *orbit)
 {
   // Quaternion for the body
   return orbit->q;
 }
 
-quaternion_t
+quatd_t
 cm_orbit_get_orbitq(cm_orbit_t *orbit)
 {
   assert(orbit->parent);
@@ -351,11 +351,11 @@ cm_orbit_get_orbitq(cm_orbit_t *orbit)
   //       ke.long_asc*VMATH_DEG_PER_RAD,
   //       ke.incl*VMATH_DEG_PER_RAD,
   //       ke.arg_peri*VMATH_DEG_PER_RAD);
-  quaternion_t q = orbit->orbit_plane_q;
-  q = q_mul(q, q_rot(0, 0, 1, ke.long_asc));
-  q = q_mul(q, q_rot(1, 0, 0, ke.incl));
-  q = q_mul(q, q_rot(0, 0, 1, ke.arg_peri));
-  q = q_normalise(q);
+  quatd_t q = orbit->orbit_plane_q;
+  q = qd_mul(q, qd_rot(0, 0, 1, ke.long_asc));
+  q = qd_mul(q, qd_rot(1, 0, 0, ke.incl));
+  q = qd_mul(q, qd_rot(0, 0, 1, ke.arg_peri));
+  q = qd_normalise(q);
 
   return q;
 }

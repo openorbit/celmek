@@ -162,9 +162,9 @@ iau_rot_object_step(cm_orbit_t *orbit, cm_world_t *state)
   //}
   orbit->W_prime = w_prime; // TODO: Ensure we add cos and sine terms
 
-  orbit->q = q_rot(0,0,1, M_PI_2 + alpha);
-  orbit->q = q_normalise(q_mul(orbit->q, q_rot(1,0,0, M_PI_2 - delta)));
-  orbit->q = q_normalise(q_mul(orbit->q, q_rot(0,0,1, w)));
+  orbit->q = qd_rot(0,0,1, M_PI_2 + alpha);
+  orbit->q = qd_normalise(qd_mul(orbit->q, qd_rot(1,0,0, M_PI_2 - delta)));
+  orbit->q = qd_normalise(qd_mul(orbit->q, qd_rot(0,0,1, w)));
 }
 
 static cm_rotational_model_t iau_rot_model = {
