@@ -25,12 +25,12 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		EC1D9A6417B2FB4E00E87370 /* gust86.c in Sources */ = {isa = PBXBuildFile; fileRef = EC1D9A6317B2FB4E00E87370 /* gust86.c */; };
 		EC697E99163B1791006B4407 /* coordinates.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E79163B1791006B4407 /* coordinates.c */; };
 		EC697E9C163B1791006B4407 /* de4xx.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E7C163B1791006B4407 /* de4xx.c */; };
 		EC697E9D163B1791006B4407 /* de4xx.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E7D163B1791006B4407 /* de4xx.h */; };
 		EC697E9E163B1791006B4407 /* elp2000-82b.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E7E163B1791006B4407 /* elp2000-82b.c */; };
 		EC697EA1163B1791006B4407 /* goffin-j2000.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E81163B1791006B4407 /* goffin-j2000.c */; };
-		EC697EA3163B1791006B4407 /* gust86.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E83163B1791006B4407 /* gust86.c */; };
 		EC697EA4163B1791006B4407 /* iau-rot-tables.h in Headers */ = {isa = PBXBuildFile; fileRef = EC697E84163B1791006B4407 /* iau-rot-tables.h */; };
 		EC697EA5163B1791006B4407 /* iau-rotation.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E85163B1791006B4407 /* iau-rotation.c */; };
 		EC697EA6163B1791006B4407 /* kepler.c in Sources */ = {isa = PBXBuildFile; fileRef = EC697E86163B1791006B4407 /* kepler.c */; };
@@ -140,13 +140,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EC1D9A6317B2FB4E00E87370 /* gust86.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gust86.c; sourceTree = "<group>"; };
 		EC697E2D163AE2CE006B4407 /* libcelmek.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcelmek.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC697E79163B1791006B4407 /* coordinates.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = coordinates.c; sourceTree = "<group>"; };
 		EC697E7C163B1791006B4407 /* de4xx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = de4xx.c; sourceTree = "<group>"; };
 		EC697E7D163B1791006B4407 /* de4xx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = de4xx.h; sourceTree = "<group>"; };
 		EC697E7E163B1791006B4407 /* elp2000-82b.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "elp2000-82b.c"; sourceTree = "<group>"; };
 		EC697E81163B1791006B4407 /* goffin-j2000.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "goffin-j2000.c"; sourceTree = "<group>"; };
-		EC697E83163B1791006B4407 /* gust86.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gust86.c; sourceTree = "<group>"; };
 		EC697E84163B1791006B4407 /* iau-rot-tables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "iau-rot-tables.h"; sourceTree = "<group>"; };
 		EC697E85163B1791006B4407 /* iau-rotation.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "iau-rotation.c"; sourceTree = "<group>"; };
 		EC697E86163B1791006B4407 /* kepler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kepler.c; sourceTree = "<group>"; };
@@ -280,7 +280,6 @@
 				EC697E7D163B1791006B4407 /* de4xx.h */,
 				EC697E7E163B1791006B4407 /* elp2000-82b.c */,
 				EC697E81163B1791006B4407 /* goffin-j2000.c */,
-				EC697E83163B1791006B4407 /* gust86.c */,
 				EC697E84163B1791006B4407 /* iau-rot-tables.h */,
 				EC697E85163B1791006B4407 /* iau-rotation.c */,
 				EC697E86163B1791006B4407 /* kepler.c */,
@@ -301,6 +300,7 @@
 				EC697E97163B1791006B4407 /* vsop87.c */,
 				ECBF1901164CFD8E00C7E566 /* orbital-elements.c */,
 				ECBF1904164FD53400C7E566 /* leap-sec-db.h */,
+				EC1D9A6317B2FB4E00E87370 /* gust86.c */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -500,7 +500,6 @@
 				EC697E9C163B1791006B4407 /* de4xx.c in Sources */,
 				EC697E9E163B1791006B4407 /* elp2000-82b.c in Sources */,
 				EC697EA1163B1791006B4407 /* goffin-j2000.c in Sources */,
-				EC697EA3163B1791006B4407 /* gust86.c in Sources */,
 				EC697EA5163B1791006B4407 /* iau-rotation.c in Sources */,
 				EC697EA6163B1791006B4407 /* kepler.c in Sources */,
 				EC697EA7163B1791006B4407 /* lieske-e2x3.c in Sources */,
@@ -510,6 +509,7 @@
 				EC697EAD163B1791006B4407 /* time-formats.c in Sources */,
 				EC697EB7163B1791006B4407 /* vsop87.c in Sources */,
 				ECBF1902164CFD8E00C7E566 /* orbital-elements.c in Sources */,
+				EC1D9A6417B2FB4E00E87370 /* gust86.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
