@@ -62,8 +62,9 @@
  * representation.
  */
 typedef enum {
+  CM_INVALID = -1,
   // Planets
-  CM_SUN,
+  CM_SUN = 0,
   CM_MERCURY,
   CM_VENUS,
   CM_EARTH,
