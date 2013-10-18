@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Mattias Holm <lorrden(at)openorbit.org>.
+ * Copyright (c) 2012,2013 Mattias Holm <lorrden(at)openorbit.org>.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -54,9 +54,9 @@ START_TEST(test_packed_dates)
        i++) {
     cm_read_packed_date(&date, packed_date_data[i].date_str);
 
-    fail_unless(date.year  == packed_date_data[i].expect.year);
-    fail_unless(date.month == packed_date_data[i].expect.month);
-    fail_unless(date.day   == packed_date_data[i].expect.day);
+    ck_assert_int_eq(date.year, packed_date_data[i].expect.year);
+    ck_assert_int_eq(date.month, packed_date_data[i].expect.month);
+    ck_assert_int_eq(date.day, packed_date_data[i].expect.day);
 
   }
 }
@@ -70,27 +70,27 @@ START_TEST(test_iso_date_reader)
   cm_date_time_t dt;
 
   cm_read_iso_date_string(&dt, "2012-03-12T12:15:55.456");
-  fail_unless(dt.date.year == 2012);
-  fail_unless(dt.date.month == 3);
-  fail_unless(dt.date.day == 12);
-  fail_unless(dt.time.hh == 12);
-  fail_unless(dt.time.mm == 15, "time.mm expected 15, got %d", (int)dt.time.mm);
-  fail_unless(dt.time.s == 55.456);
+  ck_assert_int_eq(dt.date.year, 2012);
+  ck_assert_int_eq(dt.date.month, 3);
+  ck_assert_int_eq(dt.date.day, 12);
+  ck_assert_int_eq(dt.time.hh, 12);
+  ck_assert_int_eq(dt.time.mm, 15);
+  ck_assert_int_eq(dt.time.s, 55.456);
 
   cm_read_iso_date_string(&dt, "2012-03-12T12:15:123.456Z");
-  fail_unless(dt.date.year == 2012);
-  fail_unless(dt.date.month == 3);
-  fail_unless(dt.date.day == 12);
-  fail_unless(dt.time.hh == 12);
-  fail_unless(dt.time.mm == 17, "time.mm expected 17, got %d", (int)dt.time.mm);
+  ck_assert_int_eq(dt.date.year, 2012);
+  ck_assert_int_eq(dt.date.month, 3);
+  ck_assert_int_eq(dt.date.day, 12);
+  ck_assert_int_eq(dt.time.hh, 12);
+  ck_assert_int_eq(dt.time.mm, 17);
   fail_unless(ALMOST_EQUAL(dt.time.s, 3.456, 0.000005), "time.s expected 3.456, got %f", dt.time.s);
 
   cm_read_iso_date_string(&dt, "2012-03-12T12:15:55.456+1");
-  fail_unless(dt.date.year == 2012);
-  fail_unless(dt.date.month == 3);
-  fail_unless(dt.date.day == 12);
-  fail_unless(dt.time.hh == 11);
-  fail_unless(dt.time.mm == 15);
+  ck_assert_int_eq(dt.date.year, 2012);
+  ck_assert_int_eq(dt.date.month, 3);
+  ck_assert_int_eq(dt.date.day, 12);
+  ck_assert_int_eq(dt.time.hh, 11);
+  ck_assert_int_eq(dt.time.mm, 15);
   fail_unless(dt.time.s == 55.456);
 
 }
@@ -154,11 +154,11 @@ START_TEST(test_jd_to_greg)
   cm_date_time_t dt;
   cm_jd_to_date_time(2451545.0, &dt);
 
-  fail_unless(dt.date.year == 2000);
-  fail_unless(dt.date.month == 1);
-  fail_unless(dt.date.day == 1);
-  fail_unless(dt.time.hh == 12);
-  fail_unless(dt.time.mm == 0);
+  ck_assert_int_eq(dt.date.year, 2000);
+  ck_assert_int_eq(dt.date.month, 1);
+  ck_assert_int_eq(dt.date.day, 1);
+  ck_assert_int_eq(dt.time.hh, 12);
+  ck_assert_int_eq(dt.time.mm, 0);
   fail_unless(dt.time.s == 0.0);
 }
 END_TEST;
@@ -170,9 +170,7 @@ START_TEST(test_get_orbital_model)
 {
   cm_orbital_model_t *model = NULL;
   model = cm_get_orbital_model("vsop87");
-  fail_if(strcmp(model->name, "vsop87"),
-          "could not get vsop87 model");
-
+  ck_assert_str_eq(model->name, "vsop87");
 }
 END_TEST;
 
@@ -307,7 +305,7 @@ START_TEST(test_cm_mean_elements)
   cm_kepler_elements_t elements;
   cm_compute_mean_orbital_elements_j2000(&elements, CM_EARTH, CM_J2000_0);
 
-  fail_unless(elements.epoch == CM_J2000_0, "epoch missmatched");
+  ck_assert_int_eq(elements.epoch, CM_J2000_0);
   fail_unless(REL_EQUAL(elements.ecc, 0.01670862, 0.00001), "eccentricity wrong");
   fail_unless(REL_EQUAL(elements.semi_major, 1.0, 0.00001), "semimajor axis wrong");
   fail_unless(REL_EQUAL(elements.long_asc, 174.873174 * VMATH_RAD_PER_DEG, 0.00001),
