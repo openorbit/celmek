@@ -878,7 +878,7 @@ lieske_e2x3_for_sat(sat_t *sat, double jde)
   double T = (jde - CM_B1900_0) / 36525.0;
 
   // Inclination of jupiters rot axis
-  double I = 3.120262 + 0.0006 * T;
+  double Inc = 3.120262 + 0.0006 * T;
 
   /// We have: tropical longitude, B = eq lat and R = radius (eq jup radius)
 
