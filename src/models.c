@@ -376,6 +376,7 @@ cm_init(void)
   //  lieske_e2x3_init();
   //de4xx_init();
   kepler_init();
+  gust86_init();
 
   // Rotational models
   iau_rot_init();

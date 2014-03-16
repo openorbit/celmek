@@ -22,6 +22,8 @@
 #ifndef celmek_cm_model_h
 #define celmek_cm_model_h
 
+#include <complex.h>
+
 typedef struct cm_orbital_model_t cm_orbital_model_t;
 typedef struct cm_rotational_model_t cm_rotational_model_t;
 
@@ -208,6 +210,12 @@ void vsop87_init(void);
 void kepler_init(void);
 
 /*!
+ * Initialises the kepler orbit model.
+ */
+void gust86_init(void);
+
+
+/*!
  * Initialises the IAU rotation model.
  */
 void iau_rot_init(void);
@@ -271,6 +279,36 @@ double3 cm_elp2000_82b(double jde);
  *         day.
  */
 double3 cm_kepler(cm_orbital_elements_t *orb, double jde);
+
+// Miranda
+// N[1] = 3*N[2] + 2*N[3]
+typedef struct gust86_sat_t gust86_sat_t;
+
+/*
+A: Semimajor axis but should be mean motion probably
+L: Mean longitude
+K: ecc*COS(LONG asc node+ ARG PERI) :
+H: ecc*SIN(LONG asc node+ ARG PERI) :
+Q: SIN(Incl/2)*COS(asc node): pericenter distance ?
+P: SIN(Incl/2)*SIN(asc node): period ?
+*/
+typedef struct {
+  double n;            // Mean motion
+  double lon;          // mean longitude
+  double complex z;    // k + I * h // eccentricity angle for exp is carg (z), length is cabs e exp wbar
+  double complex incl; // q + I * p // sin i/2 exp ohm
+} gust86_res_t;
+
+extern gust86_sat_t gust86_miranda;
+extern gust86_sat_t gust86_ariel;
+extern gust86_sat_t gust86_umbriel;
+extern gust86_sat_t gust86_titania;
+extern gust86_sat_t gust86_oberon;
+
+/*!
+ * Run gust86 for a given uranian sattellite.
+ */
+void cm_gust86(gust86_res_t *res, const gust86_sat_t *sat, double jde);
 
 
 /*!
