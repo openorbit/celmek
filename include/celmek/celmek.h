@@ -169,13 +169,49 @@ typedef struct {
   double a;      //!< Semimajor axis
   double e;      //!< Eccentricity
   double i;      //!< Inclination
-  double Omega;  //!< Long Ascending node
-  double w;      //!< Arg periapsis
+  double Omega;  //!< Long Ascending node Ω
+  double w;      //!< Arg periapsis ω
   double t_w;    //!< Time of periapsis
   double M;      //!< Mean anomaly at epoch
   double T;      //!< Period
   double jde;    //!< Epoch of elements
 } cm_orbital_elements_t;
+
+typedef struct {
+  double e;      //!< Eccentricity
+  double a;      //!< Semi-major
+  double i;      //!< Inclination
+  double Ω;      //!< Long Ascending node
+  double ϖ;      //!< Longitude of periapsis
+  double L0;     //!< Mean longitude
+} cm_planet_elements_t;
+
+typedef struct {
+  double e;      //!< Eccentricity
+  double q;      //!< Peri-apsis
+  double i;      //!< Inclination
+  double Ω;      //!< Long Ascending node
+  double ω;      //!< Argument of periapsis
+  double T0;     //!< Time of longitude
+} cm_comet_elements_t;
+
+typedef struct {
+  double e;      //!< Eccentricity
+  double a;      //!< Semi-major
+  double i;      //!< Inclination
+  double Ω;      //!< Long Ascending node
+  double ω;      //!< Argument of periapsis
+  double M0;     //!< Mean anomaly
+} cm_asteroid_elements_t;
+
+typedef struct {
+  double e;      //!< Eccentricity
+  double i;      //!< Inclination
+  double Ω;      //!< Long Ascending node
+  double ω;      //!< Argument of periapsis
+  double n;      //!< Mean motion
+  double M0;     //!< Mean anomaly
+} cm_tle_elements_t;
 
 #include <celmek/cm-time.h>
 #include <celmek/cm-coordinates.h>
