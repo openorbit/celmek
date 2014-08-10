@@ -12,6 +12,7 @@ set(CELMEK_SRC  "src/coordinates.c"
                 "src/mpc-orbit-reader.c"
                 "src/orbital-elements.c"
                 "src/time-formats.c"
+                "src/gust86.c"
                 "src/vsop87.c")
 
 set(CELMEK_HDR "include/celmek/celmek.h"
